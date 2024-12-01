@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://player/player.gd" id="1_pc6hn"]
 [ext_resource type="PackedScene" uid="uid://ckx74utd3j68j" path="res://mesh/COWBOYYY.blend" id="2_6xgc3"]
 [ext_resource type="PackedScene" uid="uid://bw3d2v4j6j3qw" path="res://vfx/gunfire.tscn" id="3_lxa0j"]
+[ext_resource type="PackedScene" uid="uid://bcyaldm21ienb" path="res://mesh/Colt.glb" id="4_1haff"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ktjmo"]
 height = 1.79738
@@ -16,13 +17,9 @@ albedo_color = Color(1, 0, 0, 1)
 resource_local_to_scene = true
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1hol2"]
-resource_local_to_scene = true
-albedo_color = Color(0, 0, 1, 1)
-
 [node name="Player" type="CharacterBody3D"]
-process_mode = 4
 script = ExtResource("1_pc6hn")
+DEAD_ZONE = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898936, 0)
@@ -51,18 +48,22 @@ transform = Transform3D(-1, -5.96046e-08, -2.6054e-15, -3.55271e-15, -4.37114e-0
 enabled = false
 target_position = Vector3(0, -50, 0)
 
-[node name="Gun" type="CSGBox3D" parent="CameraRotation"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.170042, -0.213598, 0.302402)
-layers = 4
-size = Vector3(0.1, 0.1, 0.4)
-material = SubResource("StandardMaterial3D_1hol2")
+[node name="GunPivot" type="Node3D" parent="CameraRotation"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.12872, -0.132303, 0.00830269)
 
-[node name="GunFire" parent="CameraRotation/Gun" instance=ExtResource("3_lxa0j")]
-transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.00140332, 0, 0.629496)
+[node name="Colt" parent="CameraRotation/GunPivot" instance=ExtResource("4_1haff")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0.29)
+
+[node name="GunFire" parent="CameraRotation/GunPivot/Colt" instance=ExtResource("3_lxa0j")]
+process_mode = 3
+transform = Transform3D(-0.5, 7.54979e-08, 3.30012e-15, 0, -2.18557e-08, 0.5, 7.54979e-08, 0.5, 2.18557e-08, 0.00140332, 0, 0.305292)
 emitting = false
 one_shot = true
 
 [node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShotTimer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

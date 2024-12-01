@@ -1,8 +1,13 @@
 extends Node3D
 
 
+@export var start_countdown: int = 3
 @export var pnj_number: int = 50
 
+@onready var _joes_name: Array[String] = [
+	"Joe Williams",
+	"Joe Anderson"
+]
 @onready var _players: Array[Player] = [
 	$ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player,
 	$ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player
@@ -26,23 +31,33 @@ var pnj_scene: PackedScene = preload("res://pnj/pnj.tscn")
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	get_tree().get_root().size_changed.connect(_window_resize) 
 	var viewport_size: Vector2 = get_viewport().size
 	for _sub_viewport: SubViewport in _sub_viewports:
 		_sub_viewport.size.y = viewport_size.y
 		_sub_viewport.size.x = viewport_size.x / 2
 	
 	for i in len(_players):
+		_viewport_huds[i].set_joe_name(_joes_name[i])
 		_players[i].shot.connect(_viewport_huds[i].on_bullet_shot)
 		_players[i].died.connect(_on_player_died)
 		_players[i].reloaded.connect(_on_player_reloaded)
 	
 	hud.restart.connect(_restart_game)
-	await hud.start_time()
+	hud.start_time(start_countdown)
+	await get_tree().create_timer(start_countdown).timeout
 	
 	for player: Player in _players:
-		player.process_mode = Node.PROCESS_MODE_INHERIT
+		player.can_move = true
+		player.game_started = true
 	
 	_setup_initial_pnj.call_deferred()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _setup_initial_pnj() -> void:
@@ -74,9 +89,9 @@ func _on_pnj_died() -> void:
 	_spawn_pnj()
 
 
-func _on_player_died() -> void:
+func _on_player_died(player_id: int) -> void:
 	viewport_control.modulate = viewport_control.modulate.darkened(0.6)
-	hud.show_replay_screen()
+	hud.show_replay_screen(_joes_name[1 - player_id])
 
 
 func _restart_game() -> void:
@@ -85,3 +100,10 @@ func _restart_game() -> void:
 
 func _on_player_reloaded(player_id: int) -> void:
 	_viewport_huds[player_id]._reload_bullets()
+
+
+func _window_resize() -> void:
+	var viewport_size: Vector2 = get_viewport().size
+	for _sub_viewport: SubViewport in _sub_viewports:
+		_sub_viewport.size.y = viewport_size.y
+		_sub_viewport.size.x = viewport_size.x / 2

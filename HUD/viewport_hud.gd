@@ -6,6 +6,7 @@ extends Control
 
 @onready var bullets: HBoxContainer = $Bullets
 @onready var MAX_BULLET: int = bullets.get_child_count()
+@onready var _name: Label = $Name
 
 var bullet_number: int
 
@@ -19,6 +20,10 @@ func _reload_bullets() -> void:
 	bullet_number = MAX_BULLET
 	for bullet: TextureRect in bullets.get_children():
 		bullet.texture = balle_pleine
+
+
+func set_joe_name(name: String) -> void:
+	_name.text = name
 
 
 func on_bullet_shot() -> void:
