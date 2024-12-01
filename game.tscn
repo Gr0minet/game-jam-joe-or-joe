@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://badnxki570tc"]
+[gd_scene load_steps=39 format=4 uid="uid://badnxki570tc"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2w1u3"]
 [ext_resource type="PackedScene" uid="uid://cdv34fi2enh62" path="res://player/player.tscn" id="1_5mu6h"]
@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://celt4jlqrb24g" path="res://props/Citerne.glb" id="9_0klpp"]
 [ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="9_glngn"]
 [ext_resource type="PackedScene" uid="uid://b3m37u8afn4cn" path="res://props/Banc.glb" id="10_5km4y"]
+[ext_resource type="PackedScene" uid="uid://ci4tcog5vg8yy" path="res://props/Abreuvoir.glb" id="15_rw6rl"]
+[ext_resource type="PackedScene" uid="uid://cx1th3njwvy5o" path="res://props/Cactus big.glb" id="16_ss12r"]
+[ext_resource type="PackedScene" uid="uid://calu5cbxik1cx" path="res://props/Lampadaire.glb" id="17_qg6bh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_all51"]
 resource_name = "Material.006"
@@ -188,7 +191,6 @@ grow_vertical = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0.866025, -0.5, 0, 0.5, 0.866025, 1, 3.78552e-08, -2.18557e-08, 8.5, 10, 2)
-shadow_enabled = true
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_ajhm5")
@@ -378,6 +380,90 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.192
 
 [node name="Banc4" parent="Environment/Props" instance=ExtResource("10_5km4y")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.19222, -0.474455, 8.29111)
+
+[node name="Abreuvoir2" parent="Environment/Props" instance=ExtResource("15_rw6rl")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.54266, 0, 6.91818)
+
+[node name="Abreuvoir3" parent="Environment/Props" instance=ExtResource("15_rw6rl")]
+transform = Transform3D(-1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, -1, -7.81114, -2.38419e-07, -3.27807)
+
+[node name="Abreuvoir4" parent="Environment/Props" instance=ExtResource("15_rw6rl")]
+transform = Transform3D(-1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, -1, -10.3497, -2.38419e-07, -3.27807)
+
+[node name="Cactus big" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.582676, 0, -0.812704, 0, 1, 0, 0.812704, 0, 0.582676, 2.47539, 0, -8.02672)
+
+[node name="Cactus big4" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.863721, 0, 0.50397, 0, 1, 0, -0.50397, 0, 0.863721, -2.32119, 0, -24.3966)
+
+[node name="Cactus big5" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.962536, 0, 0.271155, 0, 1, 0, -0.271155, 0, 0.962536, 1.61765, 0, -21.2628)
+
+[node name="Cactus big14" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.872291, 0, 0.488987, 0, 1, 0, -0.488987, 0, 0.872291, -3.12961, 0, -12.762)
+
+[node name="Cactus big6" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.885685, 0, 0.464286, 0, 1, 0, -0.464286, 0, 0.885685, 19.1569, 0, 1.77016)
+
+[node name="Cactus big2" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(-0.211222, 0, -0.977438, 0, 1, 0, 0.977438, 0, -0.211222, 6.98006, 0, 1.0851)
+
+[node name="Cactus big7" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.968012, 0, -0.250904, 0, 1, 0, 0.250904, 0, 0.968012, -2.99964, 0, 7.10951)
+
+[node name="Cactus big8" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.994373, 0, 0.105934, 0, 1, 0, -0.105934, 0, 0.994373, 2.63914, 0, 15.5144)
+
+[node name="Cactus big9" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.711474, 0, -0.702712, 0, 1, 0, 0.702712, 0, 0.711474, -2.0147, 0, 18.297)
+
+[node name="Cactus big10" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.86838, 0, 0.495898, 0, 1, 0, -0.495898, 0, 0.86838, 1.87408, 0, 24.1679)
+
+[node name="Cactus big11" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.899291, 0, -0.437351, 0, 1, 0, 0.437351, 0, 0.899291, -15.6158, -4.76837e-07, 1.99633)
+
+[node name="Cactus big12" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(-0.469626, 0, -0.882866, 0, 1, 0, 0.882866, 0, -0.469626, -21.3487, -4.76837e-07, -3.54034)
+
+[node name="Cactus big13" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.217274, 0, -0.97611, 0, 1, 0, 0.97611, 0, 0.217274, -30.5336, -4.76837e-07, 1.4182)
+
+[node name="Cactus big3" parent="Environment/Props" instance=ExtResource("16_ss12r")]
+transform = Transform3D(0.289165, 0, -0.957279, 0, 1, 0, 0.957279, 0, 0.289165, 24.9801, 0, -1.4149)
+
+[node name="Lampadaire" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.909766, 0, 0.415122, 0, 1, 0, -0.415122, 0, 0.909766, 3.9915, 0, -6.20966)
+
+[node name="Lampadaire10" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.909766, 0, 0.415122, 0, 1, 0, -0.415122, 0, 0.909766, -4.34108, 4.76837e-07, -17.4757)
+
+[node name="Lampadaire11" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.909766, 0, 0.415122, 0, 1, 0, -0.415122, 0, 0.909766, -4.34073, 4.76837e-07, -21.3052)
+
+[node name="Lampadaire2" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, 6.25956, 0, -3.85843)
+
+[node name="Lampadaire3" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, 3.71445, 0, 15.891)
+
+[node name="Lampadaire4" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, 3.77156, 0, 20.5794)
+
+[node name="Lampadaire5" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, 16.4757, 0, -3.15549)
+
+[node name="Lampadaire6" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, 20.2564, 0, -3.18321)
+
+[node name="Lampadaire7" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, -16.6611, 1.19209e-07, 3.47745)
+
+[node name="Lampadaire8" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, -19.9788, 1.19209e-07, 3.37556)
+
+[node name="Lampadaire9" parent="Environment/Props" instance=ExtResource("17_qg6bh")]
+transform = Transform3D(0.708291, 0, 0.705921, 0, 1, 0, -0.705921, 0, 0.708291, -7.61508, -1.19209e-07, 4.07554)
 
 [node name="Collision" type="Node3D" parent="Environment"]
 

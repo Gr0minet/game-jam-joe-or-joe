@@ -1,10 +1,11 @@
 - Intégrer logo
-- Intégrer PNJ Thibaud
-	- Changer aléatoirement couleur chemise
-- Ajouter props (cactus, lampadaire, abreuvoir) Corentin
+- Changer aléatoirement couleur PNJ chemise
 - Animation recul du tir
 - Collision des props
 - Ciel
 - Lumière
-- Refaire hitbox
+
 - animation shot
+
+
+- Refaire hitbox
