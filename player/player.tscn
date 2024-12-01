@@ -11,7 +11,7 @@ height = 1.79738
 radius = 0.220374
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8n6h"]
-albedo_color = Color(1, 0, 0, 1)
+albedo_color = Color(0.718291, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lwa1"]
 
@@ -54,6 +54,15 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.128
 [node name="Colt" parent="CameraRotation/GunPivot" instance=ExtResource("4_1haff")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0.29)
 
+[node name="Pistolet_Colt canon" parent="CameraRotation/GunPivot/Colt" index="0"]
+cast_shadow = 0
+
+[node name="Pistolet_Colt barillet" parent="CameraRotation/GunPivot/Colt" index="1"]
+cast_shadow = 0
+
+[node name="Pistolet_Colt poignee" parent="CameraRotation/GunPivot/Colt" index="2"]
+cast_shadow = 0
+
 [node name="GunFire" parent="CameraRotation/GunPivot/Colt" instance=ExtResource("3_lxa0j")]
 process_mode = 3
 transform = Transform3D(-0.5, 7.54979e-08, 3.30012e-15, 0, -2.18557e-08, 0.5, 7.54979e-08, 0.5, 2.18557e-08, 0.00140332, 0, 0.305292)
@@ -70,3 +79,4 @@ one_shot = true
 
 [editable path="COWBOY_REPOS"]
 [editable path="COWBOY_DEGAINE"]
+[editable path="CameraRotation/GunPivot/Colt"]

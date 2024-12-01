@@ -64,7 +64,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fh27j")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dcrma"]
-albedo_color = Color(1, 0, 0, 1)
+albedo_color = Color(0.718291, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0hfs"]
 albedo_color = Color(0.895696, 0.90764, 0.985338, 1)
@@ -168,10 +168,16 @@ render_target_update_mode = 4
 
 [node name="Player" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("1_5mu6h")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -4)
-color = Color(1, 0, 0, 1)
+color = Color(0.718291, 0, 0, 1)
+
+[node name="COWBOY_REPOS" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="1"]
+visible = false
 
 [node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_REPOS/COWBOYYY" index="1"]
 mesh = SubResource("ArrayMesh_ccs12")
+
+[node name="COWBOY_DEGAINE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="2"]
+visible = true
 
 [node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_DEGAINE" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dcrma")
@@ -622,6 +628,8 @@ data = ExtResource("23_icd5q")
 [editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player"]
 [editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_REPOS"]
 [editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_DEGAINE"]
+[editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/CameraRotation/GunPivot/Colt"]
 [editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player"]
 [editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/COWBOY_REPOS"]
 [editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/COWBOY_DEGAINE"]
+[editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/CameraRotation/GunPivot/Colt"]
