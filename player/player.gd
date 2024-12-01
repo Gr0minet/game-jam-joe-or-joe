@@ -146,9 +146,12 @@ func _shoot() -> void:
 	_ray_cast_3d.force_raycast_update()
 	_bullet_count -= 1
 	shot.emit()
-	if _ray_cast_3d.is_colliding() and _ray_cast_3d.get_collider() is Player:
-		_ray_cast_3d.get_collider().got_shot()
-		process_mode = PROCESS_MODE_DISABLED
+	if _ray_cast_3d.is_colliding():
+		if _ray_cast_3d.get_collider() is Player:
+			_ray_cast_3d.get_collider().got_shot()
+			process_mode = PROCESS_MODE_DISABLED
+		if _ray_cast_3d.get_collider() is PNJ:
+			_ray_cast_3d.get_collider().got_shot()
 	_ray_cast_3d.enabled = false
 	
 	

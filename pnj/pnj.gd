@@ -39,3 +39,12 @@ func _physics_process(_delta: float) -> void:
 	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
 	rotation.y = atan2(-velocity.x, -velocity.z)
 	move_and_slide()
+
+
+func got_shot() -> void:
+	set_physics_process(false)
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(self, "rotation:z", deg_to_rad(90), Const.END_ANIMATION_TIME).set_trans(Tween.TRANS_QUART)
+	await tween.finished
+	died.emit()
+	queue_free()
