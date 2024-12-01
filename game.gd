@@ -57,7 +57,6 @@ func _spawn_pnj() -> void:
 		1,
 		true
 	)
-	print(random_position)
 	var new_pnj: PNJ = pnj_scene.instantiate()
 	new_pnj.position.x = random_position.x
 	new_pnj.position.z = random_position.z
