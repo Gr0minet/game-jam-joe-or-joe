@@ -45,7 +45,6 @@ const BASE_ACTIONS: Array[String] = [
 @onready var _ray_cast_3d: RayCast3D = $CameraRotation/Camera3D/RayCast3D
 @onready var _reload_timer: Timer = $ReloadTimer
 @onready var _shot_timer: Timer = $ShotTimer
-@onready var _animation_player: AnimationPlayer = $AnimationPlayer
 
 var mouse_sensitivity: float = 0.002
 var game_started: bool = false

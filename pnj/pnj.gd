@@ -22,11 +22,11 @@ func _ready() -> void:
 	scale *= randf_range(MIN_SCALE, MAX_SCALE)
 
 
-func add_next_position(position: Vector3) -> void:
-	position_list.append(position)
+func add_next_position(next_position: Vector3) -> void:
+	position_list.append(next_position)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if _navigation_agent.is_navigation_finished():
 		if position_list.is_empty():
 			died.emit()

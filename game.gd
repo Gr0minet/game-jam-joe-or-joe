@@ -27,16 +27,15 @@ extends Node3D
 @onready var hud: HUD = $HUD
 @onready var viewport_control: Control = $ViewportControl
 
+
 var pnj_scene: PackedScene = preload("res://pnj/pnj.tscn")
+var main_menu_scene: PackedScene = preload("res://menu/main_menu.tscn")
 
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	get_tree().get_root().size_changed.connect(_window_resize) 
-	var viewport_size: Vector2 = get_viewport().size
-	for _sub_viewport: SubViewport in _sub_viewports:
-		_sub_viewport.size.y = viewport_size.y
-		_sub_viewport.size.x = viewport_size.x / 2
+	_window_resize()
 	
 	for i in len(_players):
 		_viewport_huds[i].set_joe_name(_joes_name[i])
@@ -47,6 +46,7 @@ func _ready() -> void:
 	hud.restart.connect(_restart_game)
 	hud.start_time(start_countdown)
 	await get_tree().create_timer(start_countdown).timeout
+	AudioManager.play_music(SoundBank.main_music, 0.0, false)
 	
 	for player: Player in _players:
 		player.can_move = true
@@ -99,6 +99,10 @@ func _restart_game() -> void:
 	get_tree().reload_current_scene()
 
 
+func _go_to_main_menu() -> void:
+	get_tree().change_scene_to_packed(main_menu_scene)
+
+
 func _on_player_reloaded(player_id: int) -> void:
 	_viewport_huds[player_id]._reload_bullets()
 
@@ -106,5 +110,5 @@ func _on_player_reloaded(player_id: int) -> void:
 func _window_resize() -> void:
 	var viewport_size: Vector2 = get_viewport().size
 	for _sub_viewport: SubViewport in _sub_viewports:
-		_sub_viewport.size.y = viewport_size.y
-		_sub_viewport.size.x = viewport_size.x / 2
+		_sub_viewport.size.y = int(viewport_size.y)
+		_sub_viewport.size.x = int(viewport_size.x / 2.0)

@@ -2,23 +2,23 @@ class_name HUD
 extends CanvasLayer
 
 
-signal started
 signal restart
 
 @onready var h_box_container: HBoxContainer = $HBoxContainer
-@onready var timer_label: Label = $Label
+@onready var _countdown_label: Label = $CountdownLabel
 @onready var _victorious_joe: Label = $ReplayContainer/VictoriousJoe
 @onready var _replay_container: VBoxContainer = $ReplayContainer
+@onready var _countdown: Timer = $Countdown
 
 
 func start_time(start_countdown: int) -> void:
-	timer_label.visible = true
-	for i in range(start_countdown, 0, -1):
-		timer_label.text = str(i)
-		await get_tree().create_timer(1.0).timeout
-	timer_label.text = "GO"
-	await get_tree().create_timer(1.0).timeout
-	timer_label.visible = false
+	_countdown_label.visible = true
+	_countdown.start(start_countdown)
+
+
+func _process(delta: float) -> void:
+	if not _countdown.is_stopped():
+		_countdown_label.text = "%d" % [int(_countdown.time_left) + 1]
 
 
 func show_replay_screen(victorious_joe: String) -> void:
@@ -34,3 +34,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_button_pressed() -> void:
 	restart.emit()
+
+
+func _on_countdown_timeout() -> void:
+	_countdown.stop()
+	_countdown_label.text = "GO"
+	await get_tree().create_timer(1.0).timeout
+	_countdown_label.visible = false

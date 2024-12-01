@@ -22,8 +22,8 @@ func _reload_bullets() -> void:
 		bullet.texture = balle_pleine
 
 
-func set_joe_name(name: String) -> void:
-	_name.text = name
+func set_joe_name(joy_name: String) -> void:
+	_name.text = joy_name
 
 
 func on_bullet_shot() -> void:
