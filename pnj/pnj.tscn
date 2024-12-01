@@ -1,37 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfd0lrkjmgbp0"]
+[gd_scene load_steps=4 format=3 uid="uid://bfd0lrkjmgbp0"]
 
 [ext_resource type="Script" path="res://pnj/pnj.gd" id="1_hbfuw"]
+[ext_resource type="PackedScene" uid="uid://bhfon7u6o1jp3" path="res://pnj/PNJ.glb" id="2_3f1ac"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d8ubf"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_uxnq4"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6040k"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_ru3xx"]
-material = SubResource("StandardMaterial3D_6040k")
-radius = 0.125
-height = 0.25
+radius = 0.252556
+height = 1.83291
 
 [node name="PNJ" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("1_hbfuw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.937983, 0)
 shape = SubResource("CapsuleShape3D_d8ubf")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_uxnq4")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 
-[node name="Eye" type="MeshInstance3D" parent="."]
-transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0.101259, 1.5, -0.468969)
-mesh = SubResource("SphereMesh_ru3xx")
-
-[node name="Eye2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, -0.108511, 1.5, -0.469345)
-mesh = SubResource("SphereMesh_ru3xx")
+[node name="PNJ2" parent="." instance=ExtResource("2_3f1ac")]
+transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0, 0, 0)

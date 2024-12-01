@@ -7,8 +7,8 @@ signal died
 const MIN_SPEED: float = 2.0
 const MAX_SPEED: float = 5.0
 
-const MIN_SCALE: float = 0.7
-const MAX_SCALE: float = 1.0
+const MIN_SCALE: float = 0.8
+const MAX_SCALE: float = 1.2
 
 var movement_speed: float = 3.0
 

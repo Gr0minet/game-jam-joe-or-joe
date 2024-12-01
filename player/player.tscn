@@ -16,6 +16,7 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lwa1"]
 
 [node name="Player" type="CharacterBody3D"]
+collision_mask = 15
 script = ExtResource("1_pc6hn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -45,6 +46,7 @@ current = true
 transform = Transform3D(-1, -5.96046e-08, -2.6054e-15, -3.55271e-15, -4.37114e-08, 1, -5.96046e-08, 1, 4.37114e-08, 0, 0, 0)
 enabled = false
 target_position = Vector3(0, -50, 0)
+collision_mask = 3
 
 [node name="GunPivot" type="Node3D" parent="CameraRotation"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.12872, -0.132303, 0.00830269)
