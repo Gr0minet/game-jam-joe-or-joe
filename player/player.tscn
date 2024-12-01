@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdv34fi2enh62"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_pc6hn"]
+[ext_resource type="PackedScene" uid="uid://djh5swkxq67fs" path="res://mesh/scale_ref.fbx" id="1_w5cbn"]
+[ext_resource type="PackedScene" uid="uid://bw3d2v4j6j3qw" path="res://vfx/gunfire.tscn" id="3_lxa0j"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ktjmo"]
+height = 1.79738
+radius = 0.220374
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1gstu"]
+resource_local_to_scene = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1hol2"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0, 1, 1)
+
+[node name="Player" type="StaticBody3D"]
+script = ExtResource("1_pc6hn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898936, 0)
+shape = SubResource("CylinderShape3D_ktjmo")
+
+[node name="scale_ref" parent="." instance=ExtResource("1_w5cbn")]
+
+[node name="scale_ref" parent="scale_ref/TK_Blockout_ScaleRef" index="0"]
+layers = 2
+surface_material_override/0 = SubResource("StandardMaterial3D_1gstu")
+
+[node name="CameraRotation" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraRotation"]
+transform = Transform3D(-1, -3.55271e-15, -5.96046e-08, -3.55271e-15, 1, -1.05879e-22, 5.96046e-08, 1.05879e-22, -1, 0, 0, 0)
+cull_mask = 1048573
+
+[node name="RayCast3D" type="RayCast3D" parent="CameraRotation/Camera3D"]
+transform = Transform3D(-1, -5.96046e-08, -2.6054e-15, -3.55271e-15, -4.37114e-08, 1, -5.96046e-08, 1, 4.37114e-08, 0, 0, 0)
+enabled = false
+target_position = Vector3(0, -50, 0)
+
+[node name="Gun" type="CSGBox3D" parent="CameraRotation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.170042, -0.213598, 0.302402)
+layers = 4
+size = Vector3(0.1, 0.1, 0.4)
+material = SubResource("StandardMaterial3D_1hol2")
+
+[node name="GunFire" parent="CameraRotation/Gun" instance=ExtResource("3_lxa0j")]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.00140332, 0, 0.629496)
+emitting = false
+one_shot = true
+
+[editable path="scale_ref"]
