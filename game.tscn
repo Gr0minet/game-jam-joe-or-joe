@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=4 uid="uid://badnxki570tc"]
+[gd_scene load_steps=46 format=4 uid="uid://badnxki570tc"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2w1u3"]
 [ext_resource type="PackedScene" uid="uid://cdv34fi2enh62" path="res://player/player.tscn" id="1_5mu6h"]
@@ -18,7 +18,6 @@
 [ext_resource type="Texture2D" uid="uid://cjudqkgstnveu" path="res://GroundSand005 1K/GroundSand005_COL_1K.jpg" id="10_s1uc7"]
 [ext_resource type="Texture2D" uid="uid://c5upos844cqy1" path="res://GroundSand005 1K/GroundSand005_NRM_1K.jpg" id="11_0nboh"]
 [ext_resource type="Texture2D" uid="uid://nxkroddmt56b" path="res://GroundSand005 1K/GroundSand005_AO_1K.jpg" id="11_bockq"]
-[ext_resource type="Texture2D" uid="uid://dt8lxax0ajeot" path="res://GroundSand005 1K/GroundSand005_BUMP_1K.jpg" id="11_p3h2x"]
 [ext_resource type="PackedScene" uid="uid://ci4tcog5vg8yy" path="res://props/Abreuvoir.glb" id="15_rw6rl"]
 [ext_resource type="PackedScene" uid="uid://cx1th3njwvy5o" path="res://props/Cactus big.glb" id="16_ss12r"]
 [ext_resource type="PackedScene" uid="uid://calu5cbxik1cx" path="res://props/Lampadaire.glb" id="17_qg6bh"]
@@ -99,8 +98,6 @@ normal_enabled = true
 normal_texture = ExtResource("11_0nboh")
 ao_enabled = true
 ao_texture = ExtResource("11_bockq")
-heightmap_enabled = true
-heightmap_texture = ExtResource("11_p3h2x")
 uv1_triplanar = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jai36"]

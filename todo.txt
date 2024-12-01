@@ -5,3 +5,6 @@
 - meilleur feedback sur la victoire
 - Refaire hitbox
 - camera vue aérienne sur le compte à rebours
+- resize menu pas scalable
+- bug countdown
+- touches manette menu
