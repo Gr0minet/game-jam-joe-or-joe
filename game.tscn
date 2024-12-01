@@ -67,7 +67,6 @@ size = Vector3(7, 1, 7)
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_2w1u3")
-start_countdown = null
 pnj_number = 20
 
 [node name="ViewportControl" type="Control" parent="."]

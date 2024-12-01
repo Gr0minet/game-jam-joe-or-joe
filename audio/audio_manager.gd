@@ -18,6 +18,7 @@ var volume_before_pause:float = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_music_player.bus = BGM_BUS
+	_music_player.finished.connect(_on_music_finished)
 	
 	#Events.pause_game.connect(_on_game_paused)
 	#Events.unpause_game.connect(_on_game_unpaused)
@@ -114,3 +115,7 @@ func _on_game_paused() -> void:
 
 func _on_game_unpaused() -> void:
 	AudioServer.set_bus_volume_db(BGM_bus_index, volume_before_pause)
+
+
+func _on_music_finished() -> void:
+	_music_player.play()
