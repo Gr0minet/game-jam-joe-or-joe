@@ -1,6 +1,8 @@
 extends Node3D
 
 
+@export var pnj_number: int = 50
+
 @onready var _players: Array[Player] = [
 	$Control/HBoxContainer/SubViewportContainer/SubViewport/Player,
 	$Control/HBoxContainer/SubViewportContainer2/SubViewport/Player
@@ -18,6 +20,7 @@ extends Node3D
 
 @onready var side_region: NavigationRegion3D = $SideRegion
 @onready var center_region: NavigationRegion3D = $CenterRegion
+@onready var outside_region: NavigationRegion3D = $OutsideRegion
 
 var pnj_scene: PackedScene = preload("res://pnj/pnj.tscn")
 
@@ -36,7 +39,7 @@ func _ready() -> void:
 
 func _setup_initial_pnj() -> void:
 	await get_tree().physics_frame
-	for i in range(10):
+	for i in range(pnj_number):
 		_spawn_pnj()
 
 
@@ -52,12 +55,18 @@ func _spawn_pnj() -> void:
 		#zone.position.z - zone.mesh.size.y / 2,
 		#zone.position.z + zone.mesh.size.y / 2
 	#)
-	var random_position = NavigationServer3D.region_get_random_point(
-		side_region.get_rid(),
+	var new_pnj: PNJ = pnj_scene.instantiate()
+	var random_position = _get_random_position(side_region.get_rid())
+	random_position.y = 0
+	new_pnj.position = random_position
+	new_pnj.add_next_position(_get_random_position(center_region.get_rid()))
+	new_pnj.add_next_position(_get_random_position(outside_region.get_rid()))
+	pnj_container.add_child(new_pnj)
+
+
+func _get_random_position(region: RID) -> Vector3:
+	return NavigationServer3D.region_get_random_point(
+		region,
 		1,
 		true
 	)
-	var new_pnj: PNJ = pnj_scene.instantiate()
-	new_pnj.position.x = random_position.x
-	new_pnj.position.z = random_position.z
-	pnj_container.add_child(new_pnj)
