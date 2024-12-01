@@ -1,17 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://bhtpiyagsqscx"]
+[gd_scene load_steps=14 format=3 uid="uid://bhtpiyagsqscx"]
 
 [ext_resource type="Script" path="res://menu/main_menu.gd" id="1_4a485"]
 [ext_resource type="Texture2D" uid="uid://bsr5fs61ljq12" path="res://HUD/sprites_base/background.jpg" id="2_gntrs"]
 [ext_resource type="Texture2D" uid="uid://cheqvnq4nfv1x" path="res://sprites/logo_small.png" id="3_586xl"]
 [ext_resource type="Texture2D" uid="uid://b05y1k3pc2gq1" path="res://HUD/sprites_base/Bouton_Jouer_off.png" id="3_kj2y2"]
 [ext_resource type="Texture2D" uid="uid://psmmcvj3qv2d" path="res://HUD/sprites_base/Bouton_Jouer_on.png" id="4_iy2cs"]
-[ext_resource type="Texture2D" uid="uid://b82mykbnnbqgu" path="res://HUD/sprites_base/Bouton_Touches_off.png" id="5_yku6v"]
-[ext_resource type="Texture2D" uid="uid://dksawk23d2thc" path="res://HUD/sprites_base/Bouton_Touches_on.png" id="6_ad1s5"]
+[ext_resource type="Texture2D" uid="uid://b82mykbnnbqgu" path="res://HUD/sprites/Bouton_Touches_off.png" id="6_87gwm"]
 [ext_resource type="Texture2D" uid="uid://dqcnnwa73e288" path="res://HUD/sprites_base/Bouton_Credit_off.png" id="7_12d3c"]
+[ext_resource type="Texture2D" uid="uid://dksawk23d2thc" path="res://HUD/sprites/Bouton_Touches_on.png" id="7_xh16f"]
 [ext_resource type="Texture2D" uid="uid://dd5niw0vrl1br" path="res://HUD/sprites_base/Bouton_Credit_on.png" id="8_jioev"]
 [ext_resource type="Texture2D" uid="uid://cbmyy48cl3icj" path="res://HUD/sprites_base/Bouton_Quitter_off.png" id="9_m3e45"]
 [ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="10_w8lqm"]
 [ext_resource type="Texture2D" uid="uid://cgei4kfspfx0r" path="res://menu/how_to_play.png" id="11_ulsdj"]
+[ext_resource type="Texture2D" uid="uid://bv81cx3qyu6fq" path="res://menu/credits.png" id="13_hfkto"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -76,8 +77,8 @@ stretch_mode = 0
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-texture_normal = ExtResource("5_yku6v")
-texture_hover = ExtResource("6_ad1s5")
+texture_normal = ExtResource("6_87gwm")
+texture_hover = ExtResource("7_xh16f")
 stretch_mode = 0
 
 [node name="CreditButton" type="TextureButton" parent="MarginContainer/Buttons"]
@@ -122,7 +123,7 @@ offset_left = -180.0
 offset_right = 180.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("11_ulsdj")
+texture = ExtResource("13_hfkto")
 
 [connection signal="pressed" from="MarginContainer/Buttons/JouerButton" to="." method="_on_jouer_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Buttons/HowToButton" to="." method="_on_how_to_button_pressed"]

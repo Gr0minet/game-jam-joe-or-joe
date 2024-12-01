@@ -13,6 +13,7 @@ const MAX_SCALE: float = 1.2
 var movement_speed: float = 3.0
 
 @onready var _navigation_agent: NavigationAgent3D = $NavigationAgent3D
+@onready var _animation_player: AnimationPlayer = $PNJ_ANIM/AnimationPlayer
 
 var position_list: Array[Vector3] = []
 
@@ -20,6 +21,7 @@ var position_list: Array[Vector3] = []
 func _ready() -> void:
 	movement_speed = randf_range(MIN_SPEED, MAX_SPEED)
 	scale *= randf_range(MIN_SCALE, MAX_SCALE)
+	_animation_player.speed_scale *= 2 * (movement_speed / MAX_SPEED)
 
 
 func add_next_position(next_position: Vector3) -> void:

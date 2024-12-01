@@ -5,7 +5,7 @@
 - Programming: Grominet
 
 - Jaw Harp from freesound_community (https://pixabay.com/fr/sound-effects/jaw-harp-69275/)
-- Gunfire sound from Cubase
 - Gunfire vfx from Nanontech Gamedev (https://nanotech-gamedev.itch.io/tutorial-files)
 - AudioManager from Tehelka (https://github.com/tehelka-gamedev)
 - Ground texture from Poliigon (https://www.poliigon.com/texture/wavy-sand-texture/6997)
+- Sky shader from GDQuest (https://github.com/gdquest-demos/godot-4-3d-third-person-controller)

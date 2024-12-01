@@ -1,10 +1,7 @@
 - Changer aléatoirement couleur PNJ chemise
 - Animation recul du tir
 - Collision des props
-- Ciel
-- Lumière
-
 - animation shot
-
-
+- meilleur feedback sur la victoire
 - Refaire hitbox
+- camera vue aérienne sur le compte à rebours

@@ -7,6 +7,7 @@ signal reloaded(id: int)
 signal died(id: int)
 signal shot
 
+const RECOIL_ANGLE: float = deg_to_rad(-30.0)
 const RELOAD_GUN_ANGLE: float = deg_to_rad(-40.0)
 const FIRE_RATE: float = 0.5
 const DEGAINING_TIME: float = 0.3
@@ -149,6 +150,9 @@ func _shoot() -> void:
 	_bullet_count -= 1
 	shot.emit()
 	AudioManager.play_sound_effect(SoundBank.gunshot_effect)
+	#var tween: Tween = get_tree().create_tween()
+	#tween.tween_property(_gun_pivot, "rotation:x", RECOIL_ANGLE, 0.1)
+	#tween.parallel().tween_property(_gun_pivot, "rotation:x", deg_to_rad(90), 0.1)
 	if _ray_cast_3d.is_colliding():
 		if _ray_cast_3d.get_collider() is Player:
 			_ray_cast_3d.get_collider().got_shot()

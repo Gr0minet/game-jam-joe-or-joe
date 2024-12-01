@@ -28,7 +28,7 @@ extends Node3D
 @onready var viewport_control: Control = $ViewportControl
 
 
-var pnj_scene: PackedScene = preload("res://pnj/pnj.tscn")
+var pnj_scene: PackedScene = preload("res://pnj/pnj_anim.tscn")
 var main_menu_scene: PackedScene = preload("res://menu/main_menu.tscn")
 
 
