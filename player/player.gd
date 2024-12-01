@@ -1,10 +1,13 @@
 @tool
 class_name Player
-extends StaticBody3D
+extends CharacterBody3D
 
 
+signal reloaded(id: int)
+signal died
 signal shot
 
+const SPEED: float = 6.0
 const MAX_BULLET: int = 3
 const DEAD_ZONE: float = 0.1
 const CAMERA_X_ROT_MIN: float = deg_to_rad(-89.9)
@@ -36,11 +39,14 @@ const BASE_ACTIONS: Array[String] = [
 @onready var _gun: CSGBox3D = $CameraRotation/Gun
 @onready var _gunfire: GPUParticles3D = $CameraRotation/Gun/GunFire
 @onready var _ray_cast_3d: RayCast3D = $CameraRotation/Camera3D/RayCast3D
+@onready var _reload_timer: Timer = $ReloadTimer
 
 var mouse_sensitivity: float = 0.002
 
 var _rotation_direction: Vector2 = Vector2.ZERO
+var _movement_direction: Vector2 = Vector2.ZERO
 var _bullet_count
+var _reloading = false
 
 
 func _ready() -> void:
@@ -49,6 +55,7 @@ func _ready() -> void:
 	_camera_3d.set_cull_mask_value(2 + player_id, 0)
 	_gun.layers = 2**(1 + (1 - player_id))
 	_bullet_count = MAX_BULLET
+	process_mode = PROCESS_MODE_DISABLED
 
 
 func _process(delta: float) -> void:
@@ -60,16 +67,30 @@ func _process(delta: float) -> void:
 	_rotate_camera(_rotation_direction * joystick_rotation_speed * scale_factor)
 
 
+func _physics_process(delta: float) -> void:
+	var movement_dir = transform.basis * Vector3(-_movement_direction.x, 0, -_movement_direction.y)
+	velocity = SPEED * movement_dir
+	move_and_slide()
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event.device != player_id:
+	if event.device != player_id or _reloading:
 		return
-	if event is InputEventJoypadMotion :
+	if event.is_action_pressed("reload"):
+		_reload()
+	elif event is InputEventJoypadMotion :
 		var motion_event: InputEventJoypadMotion = event as InputEventJoypadMotion
 		match motion_event.axis:
 			JOY_AXIS_LEFT_X:
-				pass
+				if abs(motion_event.axis_value) >= DEAD_ZONE:
+					_movement_direction.x = motion_event.axis_value
+				else:
+					_movement_direction.x = 0.0
 			JOY_AXIS_LEFT_Y:
-				pass
+				if abs(motion_event.axis_value) >= DEAD_ZONE:
+					_movement_direction.y = motion_event.axis_value
+				else:
+					_movement_direction.y = 0.0
 			JOY_AXIS_RIGHT_X:
 				if abs(motion_event.axis_value) >= DEAD_ZONE:
 					_rotation_direction.x = motion_event.axis_value
@@ -98,9 +119,28 @@ func _shoot() -> void:
 	_gunfire.restart()
 	_ray_cast_3d.enabled = true
 	_ray_cast_3d.force_raycast_update()
-	if _ray_cast_3d.is_colliding() and _ray_cast_3d.get_collider() is Player:
-		print("hit")
 	_bullet_count -= 1
 	shot.emit()
+	if _ray_cast_3d.is_colliding() and _ray_cast_3d.get_collider() is Player:
+		_ray_cast_3d.get_collider().got_shot()
+		process_mode = PROCESS_MODE_DISABLED
 	_ray_cast_3d.enabled = false
 	
+	
+func got_shot() -> void:
+	died.emit()
+	process_mode = PROCESS_MODE_DISABLED
+
+
+func _reload() -> void:
+	if not _bullet_count == MAX_BULLET:
+		_reloading = true
+		_reload_timer.start()
+		_movement_direction = Vector2.ZERO
+		_rotation_direction = Vector2.ZERO
+
+
+func _on_reload_timer_timeout() -> void:
+	reloaded.emit(player_id)
+	_bullet_count = MAX_BULLET
+	_reloading = false

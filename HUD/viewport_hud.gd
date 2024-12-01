@@ -16,6 +16,7 @@ func _ready() -> void:
 
 
 func _reload_bullets() -> void:
+	bullet_number = MAX_BULLET
 	for bullet: TextureRect in bullets.get_children():
 		bullet.texture = balle_pleine
 

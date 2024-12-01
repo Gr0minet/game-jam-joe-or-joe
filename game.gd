@@ -4,22 +4,23 @@ extends Node3D
 @export var pnj_number: int = 50
 
 @onready var _players: Array[Player] = [
-	$Control/HBoxContainer/SubViewportContainer/SubViewport/Player,
-	$Control/HBoxContainer/SubViewportContainer2/SubViewport/Player
+	$ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player,
+	$ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player
 ]
 @onready var _sub_viewports: Array[SubViewport] = [
-	$Control/HBoxContainer/SubViewportContainer/SubViewport,
-	$Control/HBoxContainer/SubViewportContainer2/SubViewport
+	$ViewportControl/HBoxContainer/SubViewportContainer/SubViewport,
+	$ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport
 ]
 @onready var _viewport_huds: Array[ViewportHUD] = [
 	$HUD/HBoxContainer/ViewportHUD,
 	$HUD/HBoxContainer/ViewportHUD2
 ]
 @onready var pnj_container: Node3D = $PNJContainer
-
 @onready var side_region: NavigationRegion3D = $SideRegion
 @onready var center_region: NavigationRegion3D = $CenterRegion
 @onready var outside_region: NavigationRegion3D = $OutsideRegion
+@onready var hud: HUD = $HUD
+@onready var viewport_control: Control = $ViewportControl
 
 var pnj_scene: PackedScene = preload("res://pnj/pnj.tscn")
 
@@ -32,6 +33,14 @@ func _ready() -> void:
 	
 	for i in len(_players):
 		_players[i].shot.connect(_viewport_huds[i].on_bullet_shot)
+		_players[i].died.connect(_on_player_died)
+		_players[i].reloaded.connect(_on_player_reloaded)
+	
+	hud.restart.connect(_restart_game)
+	await hud.start_time()
+	
+	for player: Player in _players:
+		player.process_mode = Node.PROCESS_MODE_INHERIT
 	
 	_setup_initial_pnj.call_deferred()
 
@@ -49,6 +58,7 @@ func _spawn_pnj() -> void:
 	new_pnj.position = random_position
 	new_pnj.add_next_position(_get_random_position(center_region.get_rid()))
 	new_pnj.add_next_position(_get_random_position(outside_region.get_rid()))
+	new_pnj.died.connect(_on_pnj_died)
 	pnj_container.add_child(new_pnj)
 
 
@@ -62,3 +72,16 @@ func _get_random_position(region: RID) -> Vector3:
 
 func _on_pnj_died() -> void:
 	_spawn_pnj()
+
+
+func _on_player_died() -> void:
+	viewport_control.modulate = viewport_control.modulate.darkened(0.6)
+	hud.show_replay_screen()
+
+
+func _restart_game() -> void:
+	get_tree().reload_current_scene()
+
+
+func _on_player_reloaded(player_id: int) -> void:
+	_viewport_huds[player_id]._reload_bullets()
