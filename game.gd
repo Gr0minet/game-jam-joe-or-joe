@@ -90,6 +90,7 @@ func _on_pnj_died() -> void:
 
 
 func _on_player_died(player_id: int) -> void:
+	await get_tree().create_timer(Const.END_ANIMATION_TIME).timeout
 	viewport_control.modulate = viewport_control.modulate.darkened(0.6)
 	hud.show_replay_screen(_joes_name[1 - player_id])
 

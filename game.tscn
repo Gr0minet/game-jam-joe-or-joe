@@ -96,8 +96,7 @@ size = Vector2i(960, 1080)
 render_target_update_mode = 4
 
 [node name="Player" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("1_5mu6h")]
-transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0, 0, -4)
-DEAD_ZONE = 0.1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 color = Color(1, 0, 0, 1)
 
 [node name="CHAPEAU" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/Skin" index="0"]
@@ -118,7 +117,7 @@ size = Vector2i(960, 1080)
 render_target_update_mode = 4
 
 [node name="Player" parent="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport" instance=ExtResource("1_5mu6h")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 player_id = 1
 DEAD_ZONE = 0.8
 

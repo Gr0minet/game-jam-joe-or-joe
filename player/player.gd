@@ -45,6 +45,7 @@ const BASE_ACTIONS: Array[String] = [
 @onready var _ray_cast_3d: RayCast3D = $CameraRotation/Camera3D/RayCast3D
 @onready var _reload_timer: Timer = $ReloadTimer
 @onready var _shot_timer: Timer = $ShotTimer
+@onready var _animation_player: AnimationPlayer = $AnimationPlayer
 
 var mouse_sensitivity: float = 0.002
 var game_started: bool = false
@@ -150,6 +151,9 @@ func _shoot() -> void:
 	
 func got_shot() -> void:
 	died.emit(player_id)
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(self, "rotation:z", deg_to_rad(90), Const.END_ANIMATION_TIME).set_trans(Tween.TRANS_QUART)
+	await tween.finished
 	process_mode = PROCESS_MODE_DISABLED
 
 
@@ -188,4 +192,3 @@ func _switch_degained() -> void:
 		can_move = false
 	tween.tween_property(_gun_pivot, "rotation:x", target_rotation, DEGAINING_TIME)
 	_is_degained = not _is_degained
-	
