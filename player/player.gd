@@ -3,6 +3,9 @@ class_name Player
 extends StaticBody3D
 
 
+signal shot
+
+const MAX_BULLET: int = 3
 const DEAD_ZONE: float = 0.1
 const CAMERA_X_ROT_MIN: float = deg_to_rad(-89.9)
 const CAMERA_X_ROT_MAX: float = deg_to_rad(70)
@@ -22,11 +25,12 @@ const BASE_ACTIONS: Array[String] = [
 		if not is_node_ready():
 			await ready
 		color = value
-		var material: StandardMaterial3D = _scale_ref.get_surface_override_material(0)
-		material.albedo_color = color
+		_chapeau.get_surface_override_material(0).albedo_color = color
+		_cowboy.get_surface_override_material(0).albedo_color = color
 		_gun.material.albedo_color = value
 
-@onready var _scale_ref: MeshInstance3D = $scale_ref/TK_Blockout_ScaleRef/scale_ref
+@onready var _chapeau: MeshInstance3D = $Skin/CHAPEAU
+@onready var _cowboy: MeshInstance3D = $Skin/COWBOYYY
 @onready var _camera_rotation: Node3D = $CameraRotation
 @onready var _camera_3d: Camera3D = $CameraRotation/Camera3D
 @onready var _gun: CSGBox3D = $CameraRotation/Gun
@@ -36,12 +40,15 @@ const BASE_ACTIONS: Array[String] = [
 var mouse_sensitivity: float = 0.002
 
 var _rotation_direction: Vector2 = Vector2.ZERO
+var _bullet_count
 
 
 func _ready() -> void:
-	_scale_ref.layers = 2**(1 + player_id)
+	_chapeau.layers = 2**(1 + player_id)
+	_cowboy.layers = 2**(1 + player_id)
 	_camera_3d.set_cull_mask_value(2 + player_id, 0)
 	_gun.layers = 2**(1 + (1 - player_id))
+	_bullet_count = MAX_BULLET
 
 
 func _process(delta: float) -> void:
@@ -82,10 +89,14 @@ func _rotate_camera(move: Vector2) -> void:
 	
 
 func _shoot() -> void:
+	if _bullet_count == 0:
+		return
 	_gunfire.restart()
 	_ray_cast_3d.enabled = true
 	_ray_cast_3d.force_raycast_update()
 	if _ray_cast_3d.is_colliding() and _ray_cast_3d.get_collider() is Player:
 		print("hit")
+	_bullet_count -= 1
+	shot.emit()
 	_ray_cast_3d.enabled = false
 	

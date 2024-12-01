@@ -1,10 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://badnxki570tc"]
+[gd_scene load_steps=25 format=3 uid="uid://badnxki570tc"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2w1u3"]
 [ext_resource type="PackedScene" uid="uid://cdv34fi2enh62" path="res://player/player.tscn" id="1_5mu6h"]
 [ext_resource type="PackedScene" uid="uid://dgkkn1g860t1y" path="res://HUD/viewport_hud.tscn" id="2_hpvxc"]
+[ext_resource type="PackedScene" uid="uid://cqi8a7pnvf618" path="res://buildings/Saloon building solo V2.glb" id="4_6qtnq"]
+[ext_resource type="PackedScene" uid="uid://cc06oxe36xmb" path="res://buildings/Sheriff building solo V2.glb" id="5_jpkvu"]
+[ext_resource type="PackedScene" uid="uid://bfd0lrkjmgbp0" path="res://pnj/pnj.tscn" id="6_qnw0u"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3j4js"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78evy"]
+resource_local_to_scene = true
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxt73"]
 resource_local_to_scene = true
 albedo_color = Color(1, 0, 0, 1)
 
@@ -12,7 +19,11 @@ albedo_color = Color(1, 0, 0, 1)
 resource_local_to_scene = true
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dnc1a"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_menqr"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vq85d"]
 resource_local_to_scene = true
 albedo_color = Color(0, 0, 1, 1)
 
@@ -28,6 +39,35 @@ sky_material = SubResource("ProceduralSkyMaterial_q0k6s")
 [sub_resource type="Environment" id="Environment_lfnns"]
 background_mode = 2
 sky = SubResource("Sky_bt6md")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x7gtf"]
+albedo_color = Color(0.882353, 0.701961, 0.517647, 1)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_vc7qx"]
+vertices = PackedVector3Array(-3, 0.5, -103, -3, 0.5, -4, 3, 0.5, -4, 3, 0.5, -103, -103, 0.5, -3, -103, 0.5, 3.25, -4, 0.5, 3, -4, 0.5, -3, 4, 0.5, -3, 4, 0.5, 3.25, 103, 0.5, 3, 103, 0.5, -3, -3, 0.5, 4, -3, 0.5, 103, 3, 0.5, 103, 3, 0.5, 4)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 9), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13)]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4dexy"]
+size = Vector3(7, 1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ve356"]
+size = Vector3(7, 1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r1uqa"]
+size = Vector3(7, 1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e7t7u"]
+size = Vector3(7, 1, 100)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_xml3w"]
+vertices = PackedVector3Array(-4, 0.5, -4, -4, 0.5, 4, 4, 0.5, 4, 4, 0.5, -4)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="BoxMesh" id="BoxMesh_phre8"]
+size = Vector3(9, 1, 9)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2r8g2"]
+size = Vector2(50, 7)
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_2w1u3")
@@ -62,8 +102,12 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0, 0, -4)
 color = Color(1, 0, 0, 1)
 
-[node name="scale_ref" parent="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/scale_ref/TK_Blockout_ScaleRef" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_3j4js")
+[node name="CHAPEAU" parent="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/Skin" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_78evy")
+
+[node name="COWBOYYY" parent="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/Skin" index="2"]
+transform = Transform3D(0.21569, 0, 0, 0, 0.21569, 0, 0, 0, 0.21569, 0, 0.85245, 0.0111139)
+surface_material_override/0 = SubResource("StandardMaterial3D_kxt73")
 
 [node name="Gun" parent="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/CameraRotation" index="1"]
 material = SubResource("StandardMaterial3D_26uma")
@@ -82,9 +126,13 @@ render_target_update_mode = 4
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 4)
 player_id = 1
 
-[node name="scale_ref" parent="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player/scale_ref/TK_Blockout_ScaleRef" index="0"]
+[node name="CHAPEAU" parent="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player/Skin" index="0"]
 layers = 4
-surface_material_override/0 = SubResource("StandardMaterial3D_dnc1a")
+surface_material_override/0 = SubResource("StandardMaterial3D_menqr")
+
+[node name="COWBOYYY" parent="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player/Skin" index="2"]
+layers = 4
+surface_material_override/0 = SubResource("StandardMaterial3D_vq85d")
 
 [node name="Camera3D" parent="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player/CameraRotation" index="0"]
 cull_mask = 1048571
@@ -116,9 +164,13 @@ grow_vertical = 2
 
 [node name="ViewportHUD" parent="HUD/HBoxContainer" instance=ExtResource("2_hpvxc")]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="ViewportHUD2" parent="HUD/HBoxContainer" instance=ExtResource("2_hpvxc")]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lfnns")
@@ -128,26 +180,71 @@ environment = SubResource("Environment_lfnns")
 [node name="Ground" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 size = Vector3(200, 1, 200)
+material = SubResource("StandardMaterial3D_x7gtf")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 2.25, -38)
-size = Vector3(60, 4.5, 60)
+[node name="Saloon building solo V2" parent="Environment" instance=ExtResource("4_6qtnq")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -6.08181, 0, -5.68838)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 2.25, -38)
-size = Vector3(60, 4.5, 60)
+[node name="Saloon building solo V3" parent="Environment" instance=ExtResource("4_6qtnq")]
+transform = Transform3D(-0.707107, 0, -0.707107, 6.18172e-08, 1, -6.18172e-08, 0.707107, -8.74228e-08, -0.707107, 5.91819, 0, 5.31162)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 2.25, 38)
-size = Vector3(60, 4.5, 60)
+[node name="Sheriff building solo V2" parent="Environment" instance=ExtResource("5_jpkvu")]
+transform = Transform3D(0.707107, -3.09086e-08, -0.707107, 3.09086e-08, 1, -1.28028e-08, 0.707107, -1.28028e-08, 0.707107, 4.5, 0, -4.5)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 2.25, 38)
-size = Vector3(60, 4.5, 60)
+[node name="Sheriff building solo V3" parent="Environment" instance=ExtResource("5_jpkvu")]
+transform = Transform3D(-0.707107, 3.09086e-08, 0.707107, -3.09086e-08, 1, -7.462e-08, -0.707107, -7.462e-08, -0.707107, -4.5, 0, 4.5)
 
 [node name="PNJContainer" type="Node3D" parent="."]
 
+[node name="PNJ" parent="PNJContainer" instance=ExtResource("6_qnw0u")]
+transform = Transform3D(-2.78182e-08, 0, -1, 0, 1, 0, 1, 0, -2.78182e-08, -13.1802, 0, 0)
+
+[node name="SideRegion" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_vc7qx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SideRegion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 53.5)
+mesh = SubResource("BoxMesh_4dexy")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="SideRegion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -53.5)
+mesh = SubResource("BoxMesh_ve356")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SideRegion"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 53.5, -0.5, 0)
+mesh = SubResource("BoxMesh_r1uqa")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SideRegion"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -53.5, -0.5, 0)
+mesh = SubResource("BoxMesh_e7t7u")
+
+[node name="CenterRegion" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_xml3w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenterRegion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_phre8")
+
+[node name="PNJSpawnZone" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PNJSpawnZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0, -0.5)
+mesh = SubResource("PlaneMesh_2r8g2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="PNJSpawnZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 0, -0.5)
+mesh = SubResource("PlaneMesh_2r8g2")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="PNJSpawnZone"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.38419e-06, 0, 29.5)
+mesh = SubResource("PlaneMesh_2r8g2")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="PNJSpawnZone"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.41399e-06, 0, -30.5)
+mesh = SubResource("PlaneMesh_2r8g2")
+
 [editable path="Control/HBoxContainer/SubViewportContainer/SubViewport/Player"]
-[editable path="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/scale_ref"]
+[editable path="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/Skin"]
 [editable path="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player"]
-[editable path="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player/scale_ref"]
+[editable path="Control/HBoxContainer/SubViewportContainer2/SubViewport/Player/Skin"]
