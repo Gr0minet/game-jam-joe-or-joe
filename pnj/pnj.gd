@@ -1,3 +1,4 @@
+@tool
 class_name PNJ
 extends CharacterBody3D
 
@@ -10,15 +11,31 @@ const MAX_SPEED: float = 5.0
 const MIN_SCALE: float = 0.8
 const MAX_SCALE: float = 1.2
 
+
+@export var shirt_color: Color = Color.WHITE:
+	set(value):
+		if not Engine.is_editor_hint():
+			return
+		if not is_node_ready():
+			await ready
+		shirt_color = value
+		pnj_chemise.get_surface_override_material(0).albedo_color = shirt_color
+
+
 var movement_speed: float = 3.0
 
 @onready var _navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var _animation_player: AnimationPlayer = $PNJ_ANIM/AnimationPlayer
+@onready var pnj_chemise: MeshInstance3D = $PNJ_ANIM/Armature/Skeleton3D/PNJ_CHEMISE
 
 var position_list: Array[Vector3] = []
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		set_process(false)
+		set_physics_process(false)
+		return
 	movement_speed = randf_range(MIN_SPEED, MAX_SPEED)
 	scale *= randf_range(MIN_SCALE, MAX_SCALE)
 	_animation_player.speed_scale *= 2 * (movement_speed / MAX_SPEED)

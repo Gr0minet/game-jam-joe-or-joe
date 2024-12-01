@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://beev21n37oask"]
 
 [ext_resource type="Script" path="res://audio/sound_bank.gd" id="1_wrl1i"]
-[ext_resource type="AudioStream" uid="uid://bgo2voskhgwmf" path="res://audio/data/MUSIQUE_MENU.wav" id="2_4jvmu"]
-[ext_resource type="AudioStream" uid="uid://b562on71g3uqe" path="res://audio/data/MUSIQUE_INTRO.wav" id="3_nhdpe"]
-[ext_resource type="AudioStream" uid="uid://bulpgxg638x32" path="res://audio/data/MUSIQUE_IN_GAME.wav" id="4_27tbi"]
+[ext_resource type="AudioStream" uid="uid://rymtwlg7el04" path="res://audio/data/MUSIQUE_MENU.mp3" id="2_xn3iu"]
+[ext_resource type="AudioStream" uid="uid://bv2q1ltmwq0r0" path="res://audio/data/MUSIQUE_INTRO.mp3" id="3_8oewl"]
+[ext_resource type="AudioStream" uid="uid://do68sq3jia388" path="res://audio/data/MUSIQUE_IN_GAME.mp3" id="4_cwhqq"]
 [ext_resource type="AudioStream" uid="uid://5ou3ehfd8xm3" path="res://audio/data/GUNSHOT.wav" id="5_x5mxe"]
 
 [node name="SoundBank" type="Node"]
 script = ExtResource("1_wrl1i")
-main_menu_music = ExtResource("2_4jvmu")
-intro_music = ExtResource("3_nhdpe")
-main_music = ExtResource("4_27tbi")
+main_menu_music = ExtResource("2_xn3iu")
+intro_music = ExtResource("3_8oewl")
+main_music = ExtResource("4_cwhqq")
 gunshot_effect = ExtResource("5_x5mxe")

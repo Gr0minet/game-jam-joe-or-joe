@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://lwa6klu7je8a"]
+[gd_scene load_steps=5 format=3 uid="uid://lwa6klu7je8a"]
 
 [ext_resource type="Script" path="res://pnj/pnj.gd" id="1_jpe4f"]
 [ext_resource type="PackedScene" uid="uid://uocmgtas00oc" path="res://pnj/PNJ_ANIM.glb" id="2_6du6j"]
@@ -6,6 +6,8 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d8ubf"]
 radius = 0.252556
 height = 1.83291
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3afp7"]
 
 [node name="PNJ" type="CharacterBody3D"]
 collision_layer = 2
@@ -25,6 +27,9 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 
 [node name="Skeleton3D" parent="PNJ_ANIM/Armature" index="0"]
 bones/2/rotation = Quaternion(0.683013, -0.183013, -0.683013, 0.183013)
 bones/3/rotation = Quaternion(0.683013, -0.183013, 0.683013, -0.183013)
+
+[node name="PNJ_CHEMISE" parent="PNJ_ANIM/Armature/Skeleton3D" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_3afp7")
 
 [node name="AnimationPlayer" parent="PNJ_ANIM" index="3"]
 autoplay = "WALKING"
