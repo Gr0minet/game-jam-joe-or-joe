@@ -1,4 +1,3 @@
-- Intégrer logo
 - Changer aléatoirement couleur PNJ chemise
 - Animation recul du tir
 - Collision des props

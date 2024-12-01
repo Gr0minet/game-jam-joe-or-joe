@@ -8,3 +8,4 @@
 - Gunfire sound from Cubase
 - Gunfire vfx from Nanontech Gamedev (https://nanotech-gamedev.itch.io/tutorial-files)
 - AudioManager from Tehelka (https://github.com/tehelka-gamedev)
+- Ground texture from Poliigon (https://www.poliigon.com/texture/wavy-sand-texture/6997)
