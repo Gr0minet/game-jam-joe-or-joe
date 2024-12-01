@@ -32,11 +32,9 @@ const BASE_ACTIONS: Array[String] = [
 		if not is_node_ready():
 			await ready
 		color = value
-		_chapeau.get_surface_override_material(0).albedo_color = color
-		_cowboy.get_surface_override_material(0).albedo_color = color
+		_chemise_repos.get_surface_override_material(0).albedo_color = color
+		_chemise_degaine.get_surface_override_material(0).albedo_color = color
 
-@onready var _chapeau: MeshInstance3D = $Skin/CHAPEAU
-@onready var _cowboy: MeshInstance3D = $Skin/COWBOYYY
 @onready var _camera_rotation: Node3D = $CameraRotation
 @onready var _camera_3d: Camera3D = $CameraRotation/Camera3D
 @onready var _gun: Node3D = $CameraRotation/GunPivot/Colt
@@ -45,6 +43,10 @@ const BASE_ACTIONS: Array[String] = [
 @onready var _ray_cast_3d: RayCast3D = $CameraRotation/Camera3D/RayCast3D
 @onready var _reload_timer: Timer = $ReloadTimer
 @onready var _shot_timer: Timer = $ShotTimer
+@onready var _cowboy_degaine: Node3D = $COWBOY_DEGAINE
+@onready var _cowboy_repos: Node3D = $COWBOY_REPOS
+@onready var _chemise_repos: MeshInstance3D = $COWBOY_REPOS/COWBOYYY/COWBOY_CHEMISE
+@onready var _chemise_degaine: MeshInstance3D = $COWBOY_DEGAINE/COWBOY_CHEMISE
 
 var mouse_sensitivity: float = 0.002
 var game_started: bool = false
@@ -61,8 +63,10 @@ func _ready() -> void:
 		set_process(false)
 		set_physics_process(false)
 		return
-	_chapeau.layers = 2**(1 + player_id)
-	_cowboy.layers = 2**(1 + player_id)
+	recursive_set_visual_layer(_cowboy_degaine, 2**(1 + player_id))
+	recursive_set_visual_layer(_cowboy_repos, 2**(1 + player_id))
+	#_chapeau.layers = 2**(1 + player_id)
+	#_cowboy.layers = 2**(1 + player_id)
 	_camera_3d.set_cull_mask_value(2 + player_id, 0)
 	for node: Node3D in _gun.get_children():
 		if node is MeshInstance3D:
@@ -182,6 +186,8 @@ func _switch_degained() -> void:
 	var target_rotation: float = deg_to_rad(0.0)
 	var tween: Tween = get_tree().create_tween()
 	if _is_degained:
+		_cowboy_repos.visible = true
+		_cowboy_degaine.visible = false
 		target_rotation = deg_to_rad(90.0)
 		can_move = true
 	else:
@@ -190,4 +196,15 @@ func _switch_degained() -> void:
 		_rotation_direction = Vector2.ZERO
 		can_move = false
 	tween.tween_property(_gun_pivot, "rotation:x", target_rotation, DEGAINING_TIME)
+	await tween.finished
 	_is_degained = not _is_degained
+	if _is_degained:
+		_cowboy_degaine.visible = true
+		_cowboy_repos.visible = false
+		
+
+func recursive_set_visual_layer(node: Node3D, layer: int) -> void:
+	for child: Node3D in node.get_children():
+		if child is VisualInstance3D:
+			child.layers = layer
+		recursive_set_visual_layer(child, layer)

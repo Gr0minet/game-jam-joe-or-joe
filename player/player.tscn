@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cdv34fi2enh62"]
+[gd_scene load_steps=9 format=3 uid="uid://cdv34fi2enh62"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_pc6hn"]
-[ext_resource type="PackedScene" uid="uid://ckx74utd3j68j" path="res://mesh/COWBOYYY.blend" id="2_6xgc3"]
+[ext_resource type="PackedScene" uid="uid://c0eeukotbomnw" path="res://player/COWBOY_REPOS.glb" id="2_5owxw"]
+[ext_resource type="PackedScene" uid="uid://b3ogsb2qqtij0" path="res://player/COWBOY_DEGAINE.glb" id="3_61hky"]
 [ext_resource type="PackedScene" uid="uid://bw3d2v4j6j3qw" path="res://vfx/gunfire.tscn" id="3_lxa0j"]
 [ext_resource type="PackedScene" uid="uid://bcyaldm21ienb" path="res://mesh/Colt.glb" id="4_1haff"]
 
@@ -9,13 +10,10 @@
 height = 1.79738
 radius = 0.220374
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6lfm8"]
-resource_local_to_scene = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8n6h"]
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cfni2"]
-resource_local_to_scene = true
-albedo_color = Color(1, 0, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lwa1"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_pc6hn")
@@ -24,15 +22,16 @@ script = ExtResource("1_pc6hn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898936, 0)
 shape = SubResource("CylinderShape3D_ktjmo")
 
-[node name="Skin" parent="." instance=ExtResource("2_6xgc3")]
+[node name="COWBOY_REPOS" parent="." instance=ExtResource("2_5owxw")]
+visible = false
 
-[node name="CHAPEAU" parent="Skin" index="0"]
-layers = 2
-surface_material_override/0 = SubResource("StandardMaterial3D_6lfm8")
+[node name="COWBOY_CHEMISE" parent="COWBOY_REPOS/COWBOYYY" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_h8n6h")
 
-[node name="COWBOYYY" parent="Skin" index="2"]
-layers = 2
-surface_material_override/0 = SubResource("StandardMaterial3D_cfni2")
+[node name="COWBOY_DEGAINE" parent="." instance=ExtResource("3_61hky")]
+
+[node name="COWBOY_CHEMISE" parent="COWBOY_DEGAINE" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_8lwa1")
 
 [node name="CameraRotation" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -67,4 +66,5 @@ one_shot = true
 
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
 
-[editable path="Skin"]
+[editable path="COWBOY_REPOS"]
+[editable path="COWBOY_DEGAINE"]
