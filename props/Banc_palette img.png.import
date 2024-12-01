@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cng4s42wxqo3p"
-path.s3tc="res://.godot/imported/Saloon angle_palette img.png-7e1d6e8499851759a6e2875f8b859229.s3tc.ctex"
+uid="uid://kipoukdng1ed"
+path.s3tc="res://.godot/imported/Banc_palette img.png-48f4f01ed74b745a738afdd2c2bf4c02.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://buildings/Saloon angle_palette img.png"
-dest_files=["res://.godot/imported/Saloon angle_palette img.png-7e1d6e8499851759a6e2875f8b859229.s3tc.ctex"]
+source_file="res://props/Banc_palette img.png"
+dest_files=["res://.godot/imported/Banc_palette img.png-48f4f01ed74b745a738afdd2c2bf4c02.s3tc.ctex"]
 
 [params]
 

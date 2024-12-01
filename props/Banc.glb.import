@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b572togadk2st"
-path="res://.godot/imported/Sheriff angle.glb-9d8f3c0b5f61b09f88e8db3090a48234.scn"
+uid="uid://b3m37u8afn4cn"
+path="res://.godot/imported/Banc.glb-9d8df88228af04fdceba7592ddded1f2.scn"
 
 [deps]
 
-source_file="res://buildings/Sheriff angle.glb"
-dest_files=["res://.godot/imported/Sheriff angle.glb-9d8f3c0b5f61b09f88e8db3090a48234.scn"]
+source_file="res://props/Banc.glb"
+dest_files=["res://.godot/imported/Banc.glb-9d8df88228af04fdceba7592ddded1f2.scn"]
 
 [params]
 

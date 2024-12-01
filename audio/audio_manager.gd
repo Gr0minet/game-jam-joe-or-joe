@@ -51,8 +51,8 @@ func play_music(stream:AudioStream, fade_in_time:float=0.25, fade_out: bool = tr
 
 
 func play_sound_effect(stream:AudioStream) -> void:
-	if OS.has_feature("editor"):
-		return
+	#if OS.has_feature("editor"):
+		#return
 
 	var sound_player:AudioStreamPlayer = AudioStreamPlayer.new()
 	sound_player.stream = stream

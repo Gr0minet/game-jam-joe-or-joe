@@ -1,4 +1,10 @@
+- Environment art: Joub
+- Character art: Thibaud Creusé
+- Music: Thibaud Creusé
+- 2D art: Anaïs Crusson
+- Programming: Grominet
 
-
-
-- Gunfire effect from : Nanontech Gamedev (https://nanotech-gamedev.itch.io/tutorial-files)
+- Jaw Harp from freesound_community (https://pixabay.com/fr/sound-effects/jaw-harp-69275/)
+- Gunfire sound from Cubase
+- Gunfire vfx from Nanontech Gamedev (https://nanotech-gamedev.itch.io/tutorial-files)
+- AudioManager from Tehelka (https://github.com/tehelka-gamedev)

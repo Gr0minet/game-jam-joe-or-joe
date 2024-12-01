@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bctasdhd7hnj5"
-path="res://.godot/imported/Saloon angle.glb-bc884af1b408f1bda7f043306c98b62e.scn"
+uid="uid://bluf6kij3h0ms"
+path="res://.godot/imported/Saloon angle_V3.glb-e4597791823eae447ba940554b6b8a6d.scn"
 
 [deps]
 
-source_file="res://buildings/Saloon angle.glb"
-dest_files=["res://.godot/imported/Saloon angle.glb-bc884af1b408f1bda7f043306c98b62e.scn"]
+source_file="res://buildings/Saloon angle_V3.glb"
+dest_files=["res://.godot/imported/Saloon angle_V3.glb-e4597791823eae447ba940554b6b8a6d.scn"]
 
 [params]
 

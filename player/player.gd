@@ -63,6 +63,8 @@ func _ready() -> void:
 		set_process(false)
 		set_physics_process(false)
 		return
+	_cowboy_degaine.visible = false
+	_cowboy_repos.visible = true
 	recursive_set_visual_layer(_cowboy_degaine, 2**(1 + player_id))
 	recursive_set_visual_layer(_cowboy_repos, 2**(1 + player_id))
 	#_chapeau.layers = 2**(1 + player_id)
@@ -146,6 +148,7 @@ func _shoot() -> void:
 	_ray_cast_3d.force_raycast_update()
 	_bullet_count -= 1
 	shot.emit()
+	AudioManager.play_sound_effect(SoundBank.gunshot_effect)
 	if _ray_cast_3d.is_colliding():
 		if _ray_cast_3d.get_collider() is Player:
 			_ray_cast_3d.get_collider().got_shot()

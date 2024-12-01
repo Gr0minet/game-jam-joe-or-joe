@@ -112,3 +112,7 @@ func _window_resize() -> void:
 	for _sub_viewport: SubViewport in _sub_viewports:
 		_sub_viewport.size.y = int(viewport_size.y)
 		_sub_viewport.size.x = int(viewport_size.x / 2.0)
+
+
+func _on_button_pressed() -> void:
+	pass # Replace with function body.

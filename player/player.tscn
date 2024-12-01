@@ -23,12 +23,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898936, 0)
 shape = SubResource("CylinderShape3D_ktjmo")
 
 [node name="COWBOY_REPOS" parent="." instance=ExtResource("2_5owxw")]
-visible = false
 
 [node name="COWBOY_CHEMISE" parent="COWBOY_REPOS/COWBOYYY" index="1"]
 surface_material_override/0 = SubResource("StandardMaterial3D_h8n6h")
 
 [node name="COWBOY_DEGAINE" parent="." instance=ExtResource("3_61hky")]
+visible = false
 
 [node name="COWBOY_CHEMISE" parent="COWBOY_DEGAINE" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_8lwa1")
