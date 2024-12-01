@@ -66,6 +66,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventJoypadMotion :
 		var motion_event: InputEventJoypadMotion = event as InputEventJoypadMotion
 		match motion_event.axis:
+			JOY_AXIS_LEFT_X:
+				pass
+			JOY_AXIS_LEFT_Y:
+				pass
 			JOY_AXIS_RIGHT_X:
 				if abs(motion_event.axis_value) >= DEAD_ZONE:
 					_rotation_direction.x = motion_event.axis_value

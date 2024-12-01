@@ -15,7 +15,6 @@ extends Node3D
 	$HUD/HBoxContainer/ViewportHUD,
 	$HUD/HBoxContainer/ViewportHUD2
 ]
-@onready var pnj_spawn_zone: Node3D = $PNJSpawnZone
 @onready var pnj_container: Node3D = $PNJContainer
 
 @onready var side_region: NavigationRegion3D = $SideRegion
@@ -59,3 +58,7 @@ func _get_random_position(region: RID) -> Vector3:
 		1,
 		true
 	)
+
+
+func _on_pnj_died() -> void:
+	_spawn_pnj()

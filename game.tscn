@@ -1,11 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://badnxki570tc"]
+[gd_scene load_steps=25 format=3 uid="uid://badnxki570tc"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2w1u3"]
 [ext_resource type="PackedScene" uid="uid://cdv34fi2enh62" path="res://player/player.tscn" id="1_5mu6h"]
 [ext_resource type="PackedScene" uid="uid://dgkkn1g860t1y" path="res://HUD/viewport_hud.tscn" id="2_hpvxc"]
 [ext_resource type="PackedScene" uid="uid://cqi8a7pnvf618" path="res://buildings/Saloon building solo V2.glb" id="4_6qtnq"]
 [ext_resource type="PackedScene" uid="uid://cc06oxe36xmb" path="res://buildings/Sheriff building solo V2.glb" id="5_jpkvu"]
-[ext_resource type="PackedScene" uid="uid://bfd0lrkjmgbp0" path="res://pnj/pnj.tscn" id="6_qnw0u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78evy"]
 resource_local_to_scene = true
@@ -75,6 +74,7 @@ size = Vector3(7, 1, 7)
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_2w1u3")
+pnj_number = 20
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -199,9 +199,6 @@ transform = Transform3D(0.707107, -3.09086e-08, -0.707107, 3.09086e-08, 1, -1.28
 transform = Transform3D(-0.707107, 3.09086e-08, 0.707107, -3.09086e-08, 1, -7.462e-08, -0.707107, -7.462e-08, -0.707107, -4.5, 0, 4.5)
 
 [node name="PNJContainer" type="Node3D" parent="."]
-
-[node name="PNJ" parent="PNJContainer" instance=ExtResource("6_qnw0u")]
-transform = Transform3D(-2.78182e-08, 0, -1, 0, 1, 0, 1, 0, -2.78182e-08, -13.1802, 0, 0)
 
 [node name="SideRegion" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_vc7qx")
