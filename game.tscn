@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://badnxki570tc"]
+[gd_scene load_steps=26 format=3 uid="uid://badnxki570tc"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_2w1u3"]
 [ext_resource type="PackedScene" uid="uid://cdv34fi2enh62" path="res://player/player.tscn" id="1_5mu6h"]
@@ -72,9 +72,6 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Arr
 
 [sub_resource type="BoxMesh" id="BoxMesh_s2reh"]
 size = Vector3(7, 1, 7)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_2r8g2"]
-size = Vector2(50, 7)
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_2w1u3")
@@ -250,25 +247,6 @@ mesh = SubResource("BoxMesh_s2reh")
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="OutsideRegion"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -56.2921)
 mesh = SubResource("BoxMesh_s2reh")
-
-[node name="PNJSpawnZone" type="Node3D" parent="."]
-visible = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PNJSpawnZone"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0, -0.5)
-mesh = SubResource("PlaneMesh_2r8g2")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="PNJSpawnZone"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 0, -0.5)
-mesh = SubResource("PlaneMesh_2r8g2")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="PNJSpawnZone"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.38419e-06, 0, 29.5)
-mesh = SubResource("PlaneMesh_2r8g2")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="PNJSpawnZone"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.41399e-06, 0, -30.5)
-mesh = SubResource("PlaneMesh_2r8g2")
 
 [editable path="Control/HBoxContainer/SubViewportContainer/SubViewport/Player"]
 [editable path="Control/HBoxContainer/SubViewportContainer/SubViewport/Player/Skin"]

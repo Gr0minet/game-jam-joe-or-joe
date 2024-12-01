@@ -44,17 +44,6 @@ func _setup_initial_pnj() -> void:
 
 
 func _spawn_pnj() -> void:
-	#var random_zone_idx: int = randi_range(0, pnj_spawn_zone.get_child_count() - 1)
-	#var zone: MeshInstance3D = pnj_spawn_zone.get_child(random_zone_idx)
-	#var random_position: Vector2 = Vector2.ZERO
-	#random_position.x = randf_range(
-		#zone.position.x - zone.mesh.size.x / 2,
-		#zone.position.x + zone.mesh.size.x / 2
-	#)
-	#random_position.y = randf_range(
-		#zone.position.z - zone.mesh.size.y / 2,
-		#zone.position.z + zone.mesh.size.y / 2
-	#)
 	var new_pnj: PNJ = pnj_scene.instantiate()
 	var random_position = _get_random_position(side_region.get_rid())
 	random_position.y = 0
