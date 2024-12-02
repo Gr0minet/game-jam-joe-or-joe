@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://menu/main_menu.gd" id="1_4a485"]
 [ext_resource type="Texture2D" uid="uid://bsr5fs61ljq12" path="res://HUD/sprites_base/background.jpg" id="2_gntrs"]
-[ext_resource type="Texture2D" uid="uid://cheqvnq4nfv1x" path="res://sprites/logo_small.png" id="3_586xl"]
 [ext_resource type="Texture2D" uid="uid://b05y1k3pc2gq1" path="res://HUD/sprites_base/Bouton_Jouer_off.png" id="3_kj2y2"]
+[ext_resource type="Texture2D" uid="uid://bmwpjjb7qw3s5" path="res://sprites/logo.png" id="3_xovbv"]
 [ext_resource type="Texture2D" uid="uid://b82mykbnnbqgu" path="res://HUD/sprites/Bouton_Touches_off.png" id="6_85r6h"]
 [ext_resource type="Texture2D" uid="uid://psmmcvj3qv2d" path="res://HUD/sprites_base/Bouton_Jouer_on.png" id="6_iu2aq"]
 [ext_resource type="Texture2D" uid="uid://dqcnnwa73e288" path="res://HUD/sprites_base/Bouton_Credit_off.png" id="7_12d3c"]
@@ -54,15 +54,15 @@ theme_override_constants/margin_right = 30
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("3_586xl")
+texture = ExtResource("3_xovbv")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 offset_right = 1003.0
 offset_bottom = 1287.0
 scale = Vector2(0.5, 0.5)
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_top = 50
+theme_override_constants/margin_left = 1000
+theme_override_constants/margin_top = 300
 
 [node name="Buttons" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
