@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cdv34fi2enh62"]
+[gd_scene load_steps=10 format=3 uid="uid://cdv34fi2enh62"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_pc6hn"]
 [ext_resource type="PackedScene" uid="uid://c0eeukotbomnw" path="res://player/COWBOY_REPOS.glb" id="2_5owxw"]
@@ -6,9 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://bw3d2v4j6j3qw" path="res://vfx/gunfire.tscn" id="3_lxa0j"]
 [ext_resource type="PackedScene" uid="uid://bcyaldm21ienb" path="res://mesh/Colt.glb" id="4_1haff"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcj6b"]
+radius = 0.128529
+height = 0.446179
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ktjmo"]
-height = 1.79738
-radius = 0.220374
+height = 1.56606
+radius = 0.223538
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8n6h"]
 albedo_color = Color(0.718291, 0, 0, 1)
@@ -19,8 +23,12 @@ albedo_color = Color(0.718291, 0, 0, 1)
 collision_mask = 15
 script = ExtResource("1_pc6hn")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74441, 0)
+shape = SubResource("CapsuleShape3D_hcj6b")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898936, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.780778, 0)
 shape = SubResource("CylinderShape3D_ktjmo")
 
 [node name="COWBOY_REPOS" parent="." instance=ExtResource("2_5owxw")]

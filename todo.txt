@@ -1,8 +1,6 @@
 - Changer aléatoirement couleur PNJ chemise
 - Collision des props
 - meilleur feedback sur la victoire
-- Refaire hitbox
 - camera vue aérienne sur le compte à rebours
-- resize menu pas scalable
 - bug countdown
-- touches manette menu
+- Faire pop les PNJ avant compte à rebours
