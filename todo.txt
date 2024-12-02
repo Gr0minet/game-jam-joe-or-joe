@@ -2,3 +2,4 @@
 - meilleur feedback sur la victoire
 - camera vue aérienne sur le compte à rebours
 - bug countdown
+- ajouter un bouton pour switcher full screen et windowed

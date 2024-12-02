@@ -53,7 +53,7 @@ func _ready() -> void:
 
 func add_next_position(next_position: Vector3) -> void:
 	if dont_move and position_list.is_empty():
-		look_at(next_position)
+		look_at(Vector3(next_position.x, 0, next_position.y))
 	position_list.append(next_position)
 
 
