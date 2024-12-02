@@ -4,15 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://bsr5fs61ljq12" path="res://HUD/sprites_base/background.jpg" id="2_gntrs"]
 [ext_resource type="Texture2D" uid="uid://cheqvnq4nfv1x" path="res://sprites/logo_small.png" id="3_586xl"]
 [ext_resource type="Texture2D" uid="uid://b05y1k3pc2gq1" path="res://HUD/sprites_base/Bouton_Jouer_off.png" id="3_kj2y2"]
-[ext_resource type="Texture2D" uid="uid://psmmcvj3qv2d" path="res://HUD/sprites_base/Bouton_Jouer_on.png" id="4_iy2cs"]
-[ext_resource type="Texture2D" uid="uid://b82mykbnnbqgu" path="res://HUD/sprites_base/Bouton_Touches_off.png" id="6_87gwm"]
+[ext_resource type="Texture2D" uid="uid://b82mykbnnbqgu" path="res://HUD/sprites/Bouton_Touches_off.png" id="6_85r6h"]
+[ext_resource type="Texture2D" uid="uid://psmmcvj3qv2d" path="res://HUD/sprites_base/Bouton_Jouer_on.png" id="6_iu2aq"]
 [ext_resource type="Texture2D" uid="uid://dqcnnwa73e288" path="res://HUD/sprites_base/Bouton_Credit_off.png" id="7_12d3c"]
-[ext_resource type="Texture2D" uid="uid://dksawk23d2thc" path="res://HUD/sprites_base/Bouton_Touches_on.png" id="7_xh16f"]
-[ext_resource type="Texture2D" uid="uid://dd5niw0vrl1br" path="res://HUD/sprites_base/Bouton_Credit_on.png" id="8_jioev"]
+[ext_resource type="Texture2D" uid="uid://dksawk23d2thc" path="res://HUD/sprites/Bouton_Touches_on.png" id="7_e6pnn"]
 [ext_resource type="Texture2D" uid="uid://cbmyy48cl3icj" path="res://HUD/sprites_base/Bouton_Quitter_off.png" id="9_m3e45"]
-[ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="10_w8lqm"]
+[ext_resource type="Texture2D" uid="uid://dd5niw0vrl1br" path="res://HUD/sprites_base/Bouton_Credit_on.png" id="11_dtyn1"]
 [ext_resource type="Texture2D" uid="uid://cgei4kfspfx0r" path="res://menu/how_to_play.png" id="11_ulsdj"]
 [ext_resource type="Texture2D" uid="uid://bv81cx3qyu6fq" path="res://menu/credits.png" id="13_hfkto"]
+[ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="14_u1ao5"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -69,32 +69,42 @@ layout_mode = 2
 [node name="JouerButton" type="TextureButton" parent="MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
+focus_neighbor_bottom = NodePath("../HowToButton")
 texture_normal = ExtResource("3_kj2y2")
-texture_hover = ExtResource("4_iy2cs")
+texture_hover = ExtResource("6_iu2aq")
+texture_focused = ExtResource("6_iu2aq")
 stretch_mode = 0
 
 [node name="HowToButton" type="TextureButton" parent="MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-texture_normal = ExtResource("6_87gwm")
-texture_hover = ExtResource("7_xh16f")
+focus_neighbor_top = NodePath("../JouerButton")
+focus_neighbor_bottom = NodePath("../CreditButton")
+texture_normal = ExtResource("6_85r6h")
+texture_hover = ExtResource("7_e6pnn")
+texture_focused = ExtResource("7_e6pnn")
 stretch_mode = 0
 
 [node name="CreditButton" type="TextureButton" parent="MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_neighbor_top = NodePath("../HowToButton")
+focus_neighbor_bottom = NodePath("../QuitterButton")
 texture_normal = ExtResource("7_12d3c")
-texture_hover = ExtResource("8_jioev")
+texture_hover = ExtResource("11_dtyn1")
+texture_focused = ExtResource("11_dtyn1")
 stretch_mode = 0
 
 [node name="QuitterButton" type="TextureButton" parent="MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_neighbor_top = NodePath("../CreditButton")
 texture_normal = ExtResource("9_m3e45")
-texture_hover = ExtResource("10_w8lqm")
+texture_hover = ExtResource("14_u1ao5")
+texture_focused = ExtResource("14_u1ao5")
 stretch_mode = 0
 
 [node name="HowToPlay" type="TextureRect" parent="."]

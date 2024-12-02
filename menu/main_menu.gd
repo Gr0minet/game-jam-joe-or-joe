@@ -10,6 +10,9 @@ const INTRO_TIME: float = 2.0
 @onready var how_to_play: TextureRect = $HowToPlay
 @onready var credits: TextureRect = $Credits
 @onready var margin_container_2: MarginContainer = $MarginContainer2
+@onready var jouer_button: TextureButton = $MarginContainer/Buttons/JouerButton
+@onready var how_to_button: TextureButton = $MarginContainer/Buttons/HowToButton
+@onready var credit_button: TextureButton = $MarginContainer/Buttons/CreditButton
 
 var menu_background: CompressedTexture2D = preload("res://HUD/sprites/background.jpg")
 var story_background: CompressedTexture2D = preload("res://sprites/story_background.jpg")
@@ -25,22 +28,43 @@ func _ready() -> void:
 	buttons.visible = true
 	margin_container_2.visible = true
 	AudioManager.play_music(SoundBank.main_menu_music)
+	jouer_button.grab_focus()
+
+
+func _process(delta: float) -> void:
+	for button: TextureButton in buttons.get_children():
+		if button.is_hovered():
+			get_viewport().gui_release_focus()
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action("ui_accept") and state != State.MENU:
-		how_to_play.visible = false
-		credits.visible = false
-		buttons.visible = true
-		state = State.MENU
+	print(event)
+	#if event.is_action("ui_accept") and 
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("ui_accept") and doing_introduction:
-		get_tree().change_scene_to_packed(game_scene)
+	#print(event)
+	var new_focused_button: TextureButton = null
+	if event.is_action_pressed("ui_accept"):
+		if doing_introduction:
+			get_tree().change_scene_to_packed(game_scene)
+		elif state != State.MENU:
+			if state == State.HOWTOPLAY:
+				new_focused_button = how_to_button
+				how_to_play.visible = false
+			elif state == State.CREDIT:
+				new_focused_button = credit_button
+				credits.visible = false
+			buttons.visible = true
+			state = State.MENU
+	elif event.is_action_pressed("ui_down") or event.is_action_pressed("ui_up"):
+		new_focused_button = jouer_button
 
+	if new_focused_button:
+		new_focused_button.grab_focus()
 
 func _on_jouer_button_pressed() -> void:
+	print("test")
 	doing_introduction = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	AudioManager.fade_out_music(TRANSITION_TIMES[1])

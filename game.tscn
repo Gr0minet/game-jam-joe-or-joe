@@ -91,6 +91,12 @@ sky_material = SubResource("ShaderMaterial_qtde4")
 [sub_resource type="Environment" id="Environment_lfnns"]
 background_mode = 2
 sky = SubResource("Sky_bt6md")
+fog_mode = 1
+fog_light_energy = 1.5
+fog_density = 1.0
+fog_sky_affect = 0.4
+fog_height = -1024.0
+volumetric_fog_detail_spread = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x7gtf"]
 albedo_texture = ExtResource("10_s1uc7")

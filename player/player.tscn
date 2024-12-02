@@ -43,7 +43,7 @@ cull_mask = 1048573
 current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="CameraRotation/Camera3D"]
-transform = Transform3D(-1, -5.96046e-08, -2.6054e-15, -3.55271e-15, -4.37114e-08, 1, -5.96046e-08, 1, 4.37114e-08, 0, 0, 0)
+transform = Transform3D(-1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, 0)
 enabled = false
 target_position = Vector3(0, -50, 0)
 collision_mask = 3

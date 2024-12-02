@@ -49,6 +49,7 @@ const BASE_ACTIONS: Array[String] = [
 @onready var _chemise_repos: MeshInstance3D = $COWBOY_REPOS/COWBOYYY/COWBOY_CHEMISE
 @onready var _chemise_degaine: MeshInstance3D = $COWBOY_DEGAINE/COWBOY_CHEMISE
 
+var _blood_vfx: PackedScene = preload("res://vfx/blood.tscn")
 var mouse_sensitivity: float = 0.002
 var game_started: bool = false
 var can_move: bool = false
@@ -150,10 +151,16 @@ func _shoot() -> void:
 	_bullet_count -= 1
 	shot.emit()
 	AudioManager.play_sound_effect(SoundBank.gunshot_effect)
-	#var tween: Tween = get_tree().create_tween()
-	#tween.tween_property(_gun_pivot, "rotation:x", RECOIL_ANGLE, 0.1)
-	#tween.parallel().tween_property(_gun_pivot, "rotation:x", deg_to_rad(90), 0.1)
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(_gun_pivot, "rotation:x", RECOIL_ANGLE, 0.1)
+	tween.tween_property(_gun_pivot, "rotation:x", 0, 0.1)
 	if _ray_cast_3d.is_colliding():
+		var collision_point: Vector3 = _ray_cast_3d.get_collision_point()
+		var blood_effect: AnimatedSprite3D = _blood_vfx.instantiate()
+		var effect_direction: Vector3 = (position - _ray_cast_3d.get_collider().position).normalized()
+		get_tree().root.add_child(blood_effect)
+		blood_effect.look_at(effect_direction)
+		blood_effect.position = collision_point
 		if _ray_cast_3d.get_collider() is Player:
 			_ray_cast_3d.get_collider().got_shot()
 			process_mode = PROCESS_MODE_DISABLED
@@ -177,8 +184,6 @@ func _reload() -> void:
 	tween.tween_property(_gun_pivot, "rotation:x", RELOAD_GUN_ANGLE, 0.1)
 	await get_tree().create_timer(0.1).timeout
 	can_move = false
-	_movement_direction = Vector2.ZERO
-	_rotation_direction = Vector2.ZERO
 	_reload_timer.start(RELOADING_TIME)
 
 
@@ -202,8 +207,6 @@ func _switch_degained() -> void:
 		can_move = true
 	else:
 		target_rotation = deg_to_rad(0.0)
-		_movement_direction = Vector2.ZERO
-		_rotation_direction = Vector2.ZERO
 		can_move = false
 	tween.tween_property(_gun_pivot, "rotation:x", target_rotation, DEGAINING_TIME)
 	await tween.finished
