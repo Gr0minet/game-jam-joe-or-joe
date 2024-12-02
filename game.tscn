@@ -176,13 +176,13 @@ render_target_update_mode = 4
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -4)
 color = Color(0.718291, 0, 0, 1)
 
-[node name="COWBOY_REPOS" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="1"]
+[node name="COWBOY_REPOS" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="2"]
 visible = false
 
 [node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_REPOS/COWBOYYY" index="1"]
 mesh = SubResource("ArrayMesh_ccs12")
 
-[node name="COWBOY_DEGAINE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="2"]
+[node name="COWBOY_DEGAINE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="3"]
 visible = true
 
 [node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_DEGAINE" index="0"]

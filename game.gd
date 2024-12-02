@@ -43,6 +43,16 @@ func _ready() -> void:
 		_players[i].died.connect(_on_player_died)
 		_players[i].reloaded.connect(_on_player_reloaded)
 	
+	_spawn_initial_pnj()
+	
+	_start_countdown.call_deferred()
+	
+
+func _start_countdown() -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	
+	_setup_initial_pnj_position()
 	hud.restart.connect(_restart_game)
 	hud.start_time(start_countdown)
 	await get_tree().create_timer(start_countdown).timeout
@@ -51,8 +61,8 @@ func _ready() -> void:
 	for player: Player in _players:
 		player.can_move = true
 		player.game_started = true
-	
-	_setup_initial_pnj.call_deferred()
+	for pnj: PNJ in pnj_container.get_children():
+		pnj.dont_move = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -60,10 +70,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
-func _setup_initial_pnj() -> void:
-	await get_tree().physics_frame
+func _spawn_initial_pnj() -> void:
 	for i in range(pnj_number):
-		_spawn_pnj()
+		var new_pnj: PNJ = pnj_scene.instantiate()
+		new_pnj.died.connect(_on_pnj_died)
+		pnj_container.add_child(new_pnj)
+		new_pnj.dont_move = true
+
+
+func _setup_initial_pnj_position() -> void:
+	for pnj: PNJ in pnj_container.get_children():
+		var random_position = _get_random_position(side_region.get_rid())
+		random_position.y = 0
+		pnj.position = random_position
+		pnj.add_next_position(_get_random_position(center_region.get_rid()))
+		pnj.add_next_position(_get_random_position(outside_region.get_rid()))
 
 
 func _spawn_pnj() -> void:
@@ -75,6 +96,7 @@ func _spawn_pnj() -> void:
 	new_pnj.add_next_position(_get_random_position(outside_region.get_rid()))
 	new_pnj.died.connect(_on_pnj_died)
 	pnj_container.add_child(new_pnj)
+	new_pnj.dont_move = false
 
 
 func _get_random_position(region: RID) -> Vector3:

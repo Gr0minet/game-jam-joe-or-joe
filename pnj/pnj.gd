@@ -23,10 +23,20 @@ const MAX_SCALE: float = 1.2
 
 
 var movement_speed: float = 3.0
+var dont_move: bool = false:
+	set(value):
+		if Engine.is_editor_hint():
+			return
+		dont_move = value
+		if dont_move:
+			animation_player.stop()
+		else:
+			animation_player.play(&"WALKING")
 
 @onready var _navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var _animation_player: AnimationPlayer = $PNJ_ANIM/AnimationPlayer
 @onready var pnj_chemise: MeshInstance3D = $PNJ_ANIM/Armature/Skeleton3D/PNJ_CHEMISE
+@onready var animation_player: AnimationPlayer = $PNJ_ANIM/AnimationPlayer
 
 var position_list: Array[Vector3] = []
 
@@ -42,10 +52,14 @@ func _ready() -> void:
 
 
 func add_next_position(next_position: Vector3) -> void:
+	if dont_move and position_list.is_empty():
+		look_at(next_position)
 	position_list.append(next_position)
 
 
 func _physics_process(_delta: float) -> void:
+	if dont_move:
+		return
 	if _navigation_agent.is_navigation_finished():
 		if position_list.is_empty():
 			died.emit()

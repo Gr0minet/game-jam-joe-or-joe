@@ -1,6 +1,4 @@
 - Changer aléatoirement couleur PNJ chemise
-- Collision des props
 - meilleur feedback sur la victoire
 - camera vue aérienne sur le compte à rebours
 - bug countdown
-- Faire pop les PNJ avant compte à rebours

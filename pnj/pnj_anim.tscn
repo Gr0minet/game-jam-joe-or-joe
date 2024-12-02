@@ -33,8 +33,8 @@ avoidance_enabled = true
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="PNJ_ANIM/Armature" index="0"]
-bones/2/rotation = Quaternion(0.684082, 0.178976, -0.684082, -0.178976)
-bones/3/rotation = Quaternion(0.684082, 0.178976, 0.684082, 0.178976)
+bones/2/rotation = Quaternion(0.683013, -0.183013, -0.683013, 0.183013)
+bones/3/rotation = Quaternion(0.683013, -0.183013, 0.683013, -0.183013)
 
 [node name="PNJ_CHEMISE" parent="PNJ_ANIM/Armature/Skeleton3D" index="1"]
 surface_material_override/0 = SubResource("StandardMaterial3D_3afp7")
