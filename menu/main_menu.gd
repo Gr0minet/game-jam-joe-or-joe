@@ -28,22 +28,15 @@ func _ready() -> void:
 	buttons.visible = true
 	margin_container_2.visible = true
 	AudioManager.play_music(SoundBank.main_menu_music)
-	jouer_button.grab_focus()
 
 
 func _process(delta: float) -> void:
 	for button: TextureButton in buttons.get_children():
-		if button.is_hovered():
+		if button.is_hovered() and button != get_viewport().gui_get_focus_owner():
 			get_viewport().gui_release_focus()
 
 
-func _gui_input(event: InputEvent) -> void:
-	print(event)
-	#if event.is_action("ui_accept") and 
-
-
 func _unhandled_input(event: InputEvent) -> void:
-	#print(event)
 	var new_focused_button: TextureButton = null
 	if event.is_action_pressed("ui_accept"):
 		if doing_introduction:
@@ -63,8 +56,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if new_focused_button:
 		new_focused_button.grab_focus()
 
+
 func _on_jouer_button_pressed() -> void:
-	print("test")
 	doing_introduction = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	AudioManager.fade_out_music(TRANSITION_TIMES[1])
