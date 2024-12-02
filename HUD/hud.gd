@@ -17,7 +17,7 @@ func start_time(start_countdown: int) -> void:
 	_countdown.start(start_countdown)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not _countdown.is_stopped():
 		_countdown_label.text = "%d" % [int(_countdown.time_left) + 1]
 

@@ -30,7 +30,7 @@ func _ready() -> void:
 	AudioManager.play_music(SoundBank.main_menu_music)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for button: TextureButton in buttons.get_children():
 		if button.is_hovered() and button != get_viewport().gui_get_focus_owner():
 			get_viewport().gui_release_focus()
