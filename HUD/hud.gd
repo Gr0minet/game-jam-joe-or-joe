@@ -9,6 +9,7 @@ signal restart
 @onready var _victorious_joe: Label = $ReplayContainer/VictoriousJoe
 @onready var _replay_container: VBoxContainer = $ReplayContainer
 @onready var _countdown: Timer = $Countdown
+@onready var _rejouer_button: TextureButton = $ReplayContainer/RejouerButton
 
 
 func start_time(start_countdown: int) -> void:
@@ -22,15 +23,15 @@ func _process(delta: float) -> void:
 
 
 func show_replay_screen(victorious_joe: String) -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_victorious_joe.text = victorious_joe + " gagne !"
 	h_box_container.modulate = h_box_container.modulate.darkened(0.6)
 	_replay_container.visible = true
+	_rejouer_button.grab_focus()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _replay_container.visible and event.is_action_pressed("ui_accept"):
-		restart.emit()
+	if get_viewport().gui_get_focus_owner() == null and event is InputEventJoypadButton:
+		_rejouer_button.grab_focus()
 
 
 func _on_countdown_timeout() -> void:

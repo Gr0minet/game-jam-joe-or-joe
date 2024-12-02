@@ -8,16 +8,16 @@
 [ext_resource type="Texture2D" uid="uid://ddq6xcpknuv0s" path="res://HUD/sprites_base/Bouton_Rejouer_off.png" id="6_5db1f"]
 [ext_resource type="PackedScene" uid="uid://bluf6kij3h0ms" path="res://buildings/Saloon angle_V3.glb" id="6_mgv3q"]
 [ext_resource type="PackedScene" uid="uid://ccv3f0r1hmvsd" path="res://buildings/Sheriff angle_V3.glb" id="7_ikmb5"]
-[ext_resource type="Texture2D" uid="uid://bb73pmk4ydkur" path="res://HUD/sprites_base/Bouton_Rejouer_on.png" id="7_xshuk"]
 [ext_resource type="Texture2D" uid="uid://cbmyy48cl3icj" path="res://HUD/sprites_base/Bouton_Quitter_off.png" id="8_ctajc"]
+[ext_resource type="Texture2D" uid="uid://bb73pmk4ydkur" path="res://HUD/sprites_base/Bouton_Rejouer_on.png" id="8_mavtu"]
 [ext_resource type="PackedScene" uid="uid://imctakbe5yfg" path="res://props/Baril.glb" id="8_weuv8"]
 [ext_resource type="PackedScene" uid="uid://celt4jlqrb24g" path="res://props/Citerne.glb" id="9_0klpp"]
-[ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="9_glngn"]
 [ext_resource type="PackedScene" uid="uid://b3m37u8afn4cn" path="res://props/Banc.glb" id="10_5km4y"]
 [ext_resource type="Shader" path="res://sky/sky.gdshader" id="10_owalm"]
 [ext_resource type="Texture2D" uid="uid://cjudqkgstnveu" path="res://GroundSand005 1K/GroundSand005_COL_1K.jpg" id="10_s1uc7"]
 [ext_resource type="Texture2D" uid="uid://c5upos844cqy1" path="res://GroundSand005 1K/GroundSand005_NRM_1K.jpg" id="11_0nboh"]
 [ext_resource type="Texture2D" uid="uid://nxkroddmt56b" path="res://GroundSand005 1K/GroundSand005_AO_1K.jpg" id="11_bockq"]
+[ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="11_qcdba"]
 [ext_resource type="PackedScene" uid="uid://ci4tcog5vg8yy" path="res://props/Abreuvoir.glb" id="15_rw6rl"]
 [ext_resource type="PackedScene" uid="uid://cx1th3njwvy5o" path="res://props/Cactus big.glb" id="16_ss12r"]
 [ext_resource type="PackedScene" uid="uid://calu5cbxik1cx" path="res://props/Lampadaire.glb" id="17_qg6bh"]
@@ -223,7 +223,6 @@ grow_vertical = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0.866025, -0.5, 0, 0.5, 0.866025, 1, 3.78552e-08, -2.18557e-08, 8.5, 10, 2)
-shadow_enabled = true
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_ajhm5")
@@ -291,15 +290,19 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_bottom = NodePath("../QuitterButton")
 texture_normal = ExtResource("6_5db1f")
-texture_hover = ExtResource("7_xshuk")
+texture_hover = ExtResource("8_mavtu")
+texture_focused = ExtResource("8_mavtu")
 
 [node name="QuitterButton" type="TextureButton" parent="HUD/ReplayContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_top = NodePath("../RejouerButton")
 texture_normal = ExtResource("8_ctajc")
-texture_hover = ExtResource("9_glngn")
+texture_hover = ExtResource("11_qcdba")
+texture_focused = ExtResource("11_qcdba")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lfnns")
@@ -624,6 +627,7 @@ mesh = SubResource("BoxMesh_s2reh")
 
 [node name="VoxelGI" type="VoxelGI" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, 0)
+visible = false
 size = Vector3(119.649, 11.5, 118.403)
 data = ExtResource("23_icd5q")
 

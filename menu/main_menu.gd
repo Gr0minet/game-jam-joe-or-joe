@@ -50,7 +50,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				credits.visible = false
 			buttons.visible = true
 			state = State.MENU
-	elif event.is_action_pressed("ui_down") or event.is_action_pressed("ui_up"):
+	elif get_viewport().gui_get_focus_owner() == null and event is InputEventJoypadButton:
 		new_focused_button = jouer_button
 
 	if new_focused_button:
