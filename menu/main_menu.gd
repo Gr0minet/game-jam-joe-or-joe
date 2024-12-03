@@ -1,18 +1,19 @@
 extends Control
 
 
-enum State {MENU, HOWTOPLAY, CREDIT}
+enum State {MENU, HOWTOPLAY, CREDIT, LAN}
 const TRANSITION_TIMES: Array[float] = [1.0, 2.0, 5.0, 5.7]
 const INTRO_TIME: float = 2.0
 
 @onready var background: TextureRect = $Background
-@onready var buttons: VBoxContainer = $MarginContainer/Buttons
+@onready var buttons: VBoxContainer = $BaseMenu/MarginContainer/Buttons
 @onready var how_to_play: TextureRect = $HowToPlay
 @onready var credits: TextureRect = $Credits
-@onready var margin_container_2: MarginContainer = $MarginContainer2
-@onready var jouer_button: TextureButton = $MarginContainer/Buttons/JouerButton
-@onready var how_to_button: TextureButton = $MarginContainer/Buttons/HowToButton
-@onready var credit_button: TextureButton = $MarginContainer/Buttons/CreditButton
+@onready var jouer_button: TextureButton = $BaseMenu/MarginContainer/Buttons/JouerButton
+@onready var how_to_button: TextureButton = $BaseMenu/MarginContainer/Buttons/HowToButton
+@onready var credit_button: TextureButton = $BaseMenu/MarginContainer/Buttons/CreditButton
+@onready var lan: Control = $LAN
+@onready var base_menu: Control = $BaseMenu
 
 var menu_background: CompressedTexture2D = preload("res://HUD/sprites/background.jpg")
 var story_background: CompressedTexture2D = preload("res://sprites/story_background.jpg")
@@ -21,17 +22,16 @@ var state: State = State.MENU
 var doing_introduction: bool = false
 
 func _ready() -> void:
+	lan.visible = false
 	background.texture = menu_background
 	background.modulate = Color.WHITE
-	buttons.modulate = Color.WHITE
-	margin_container_2.modulate = Color.WHITE
-	buttons.visible = true
-	margin_container_2.visible = true
+	base_menu.modulate = Color.WHITE
+	base_menu.visible = true
 	AudioManager.play_music(SoundBank.main_menu_music)
 
 
 func _process(_delta: float) -> void:
-	for button: TextureButton in buttons.get_children():
+	for button: BaseButton in buttons.get_children():
 		if button.is_hovered() and button != get_viewport().gui_get_focus_owner():
 			get_viewport().gui_release_focus()
 
@@ -48,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif state == State.CREDIT:
 				new_focused_button = credit_button
 				credits.visible = false
-			buttons.visible = true
+			base_menu.visible = true
 			state = State.MENU
 	elif get_viewport().gui_get_focus_owner() == null and event is InputEventJoypadButton:
 		new_focused_button = jouer_button
@@ -63,11 +63,10 @@ func _on_jouer_button_pressed() -> void:
 	AudioManager.fade_out_music(TRANSITION_TIMES[1])
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_property(background, "modulate", Color.BLACK, TRANSITION_TIMES[0])
-	tween.parallel().tween_property(buttons, "modulate", Color.BLACK, TRANSITION_TIMES[0])
-	tween.parallel().tween_property(margin_container_2, "modulate", Color.BLACK, TRANSITION_TIMES[0])
+	tween.parallel().tween_property(base_menu, "modulate", Color.BLACK, TRANSITION_TIMES[0])
 	await tween.finished
 	buttons.visible = false
-	margin_container_2.visible = false
+	base_menu.visible = false
 	AudioManager.play_music(SoundBank.intro_music)
 	await get_tree().create_timer(TRANSITION_TIMES[1]).timeout
 	background.texture = story_background
@@ -83,20 +82,29 @@ func _on_jouer_button_pressed() -> void:
 
 
 func _on_how_to_button_pressed() -> void:
-	if state != State.MENU:
-		return
-	buttons.visible = false
+	base_menu.visible = false
 	how_to_play.visible = true
 	state = State.HOWTOPLAY
 
 
 func _on_credit_button_pressed() -> void:
-	if state != State.MENU:
-		return
-	buttons.visible = false
+	base_menu.visible = false
 	credits.visible = true
 	state = State.CREDIT
 
 
 func _on_quitter_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_lan_button_pressed() -> void:
+	base_menu.visible = false
+	lan.visible = true
+	state = State.LAN
+
+
+func _on_back_to_menu_pressed() -> void:
+	lan.visible = false
+	base_menu.visible = true
+	state = State.MENU
+	

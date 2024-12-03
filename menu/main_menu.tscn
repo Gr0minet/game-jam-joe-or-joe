@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bhtpiyagsqscx"]
+[gd_scene load_steps=15 format=3 uid="uid://bhtpiyagsqscx"]
 
 [ext_resource type="Script" path="res://menu/main_menu.gd" id="1_4a485"]
 [ext_resource type="Texture2D" uid="uid://bsr5fs61ljq12" path="res://HUD/sprites_base/background.jpg" id="2_gntrs"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dd5niw0vrl1br" path="res://HUD/sprites_base/Bouton_Credit_on.png" id="11_dtyn1"]
 [ext_resource type="Texture2D" uid="uid://cgei4kfspfx0r" path="res://menu/how_to_play.png" id="11_ulsdj"]
 [ext_resource type="Texture2D" uid="uid://bv81cx3qyu6fq" path="res://menu/credits.png" id="13_hfkto"]
+[ext_resource type="Script" path="res://menu/lan.gd" id="14_dp244"]
 [ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="14_u1ao5"]
 
 [node name="MainMenu" type="Control"]
@@ -36,38 +37,45 @@ grow_vertical = 2
 texture = ExtResource("2_gntrs")
 expand_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="."]
+[node name="BaseMenu" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="BaseMenu"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -780.0
-offset_top = -270.0
-offset_bottom = 270.0
+offset_left = 890.0
+offset_top = -20.0
+offset_right = 1880.0
+offset_bottom = 1060.0
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/margin_right = 30
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2"]
+[node name="TextureRect" type="TextureRect" parent="BaseMenu/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("3_xovbv")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="BaseMenu"]
 layout_mode = 1
-offset_right = 1003.0
-offset_bottom = 1287.0
+offset_right = 1803.0
+offset_bottom = 1724.0
 scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 1000
 theme_override_constants/margin_top = 300
 
-[node name="Buttons" type="VBoxContainer" parent="MarginContainer"]
+[node name="Buttons" type="VBoxContainer" parent="BaseMenu/MarginContainer"]
 layout_mode = 2
 
-[node name="JouerButton" type="TextureButton" parent="MarginContainer/Buttons"]
+[node name="JouerButton" type="TextureButton" parent="BaseMenu/MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 texture_normal = ExtResource("3_kj2y2")
@@ -75,7 +83,12 @@ texture_hover = ExtResource("6_iu2aq")
 texture_focused = ExtResource("6_iu2aq")
 stretch_mode = 0
 
-[node name="HowToButton" type="TextureButton" parent="MarginContainer/Buttons"]
+[node name="LANButton" type="Button" parent="BaseMenu/MarginContainer/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "LAN Mode"
+
+[node name="HowToButton" type="TextureButton" parent="BaseMenu/MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -84,7 +97,7 @@ texture_hover = ExtResource("7_e6pnn")
 texture_focused = ExtResource("7_e6pnn")
 stretch_mode = 0
 
-[node name="CreditButton" type="TextureButton" parent="MarginContainer/Buttons"]
+[node name="CreditButton" type="TextureButton" parent="BaseMenu/MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -93,7 +106,7 @@ texture_hover = ExtResource("11_dtyn1")
 texture_focused = ExtResource("11_dtyn1")
 stretch_mode = 0
 
-[node name="QuitterButton" type="TextureButton" parent="MarginContainer/Buttons"]
+[node name="QuitterButton" type="TextureButton" parent="BaseMenu/MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -130,7 +143,144 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_hfkto")
 
-[connection signal="pressed" from="MarginContainer/Buttons/JouerButton" to="." method="_on_jouer_button_pressed"]
-[connection signal="pressed" from="MarginContainer/Buttons/HowToButton" to="." method="_on_how_to_button_pressed"]
-[connection signal="pressed" from="MarginContainer/Buttons/CreditButton" to="." method="_on_credit_button_pressed"]
-[connection signal="pressed" from="MarginContainer/Buttons/QuitterButton" to="." method="_on_quitter_button_pressed"]
+[node name="LAN" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_dp244")
+
+[node name="LanMenu" type="VBoxContainer" parent="LAN"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -98.0
+offset_right = 175.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostGameButton" type="Button" parent="LAN/LanMenu"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 64
+text = "Host Game"
+
+[node name="JoinGameButton" type="Button" parent="LAN/LanMenu"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 64
+text = "Join Game"
+
+[node name="BackToMenuButton" type="Button" parent="LAN/LanMenu"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 64
+text = "Retour menu principal"
+
+[node name="HostGameMenu" type="Control" parent="LAN"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LAN/HostGameMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 472.0
+offset_top = 322.0
+offset_right = 1408.0
+offset_bottom = 718.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JoinedPlayerLabel" type="Label" parent="LAN/HostGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 64
+text = "En attente d'un autre Joe..."
+
+[node name="BackButton" type="Button" parent="LAN/HostGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 64
+text = "Retour"
+
+[node name="JoinGameMenu" type="Control" parent="LAN"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LAN/JoinGameMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -463.0
+offset_top = -98.0
+offset_right = 463.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="LAN/JoinGameMenu/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Adresse IP : "
+
+[node name="JoinIP" type="LineEdit" parent="LAN/JoinGameMenu/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+placeholder_text = "127.0.0.1"
+alignment = 1
+expand_to_text_length = true
+
+[node name="JoinButton" type="Button" parent="LAN/JoinGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 64
+text = "Rejoindre"
+
+[node name="BackButton" type="Button" parent="LAN/JoinGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 64
+text = "Retour"
+
+[connection signal="pressed" from="BaseMenu/MarginContainer/Buttons/JouerButton" to="." method="_on_jouer_button_pressed"]
+[connection signal="pressed" from="BaseMenu/MarginContainer/Buttons/LANButton" to="." method="_on_lan_button_pressed"]
+[connection signal="pressed" from="BaseMenu/MarginContainer/Buttons/HowToButton" to="." method="_on_how_to_button_pressed"]
+[connection signal="pressed" from="BaseMenu/MarginContainer/Buttons/CreditButton" to="." method="_on_credit_button_pressed"]
+[connection signal="pressed" from="BaseMenu/MarginContainer/Buttons/QuitterButton" to="." method="_on_quitter_button_pressed"]
+[connection signal="pressed" from="LAN/LanMenu/HostGameButton" to="LAN" method="_on_host_game_pressed"]
+[connection signal="pressed" from="LAN/LanMenu/JoinGameButton" to="LAN" method="_on_join_game_pressed"]
+[connection signal="pressed" from="LAN/LanMenu/BackToMenuButton" to="." method="_on_back_to_menu_pressed"]
+[connection signal="pressed" from="LAN/HostGameMenu/VBoxContainer/BackButton" to="LAN" method="_on_back_button_pressed"]
+[connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/JoinButton" to="LAN" method="_on_join_button_pressed"]
+[connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/BackButton" to="LAN" method="_on_back_button_pressed"]

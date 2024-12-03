@@ -9,8 +9,8 @@ extends Node3D
 	"Joe Anderson"
 ]
 @onready var _players: Array[Player] = [
-	$ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player,
-	$ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player
+	$Player,
+	$Player2
 ]
 @onready var _sub_viewports: Array[SubViewport] = [
 	$ViewportControl/HBoxContainer/SubViewportContainer/SubViewport,

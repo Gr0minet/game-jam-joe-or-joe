@@ -146,7 +146,38 @@ size = Vector3(7, 1, 7)
 script = ExtResource("1_2w1u3")
 pnj_number = 30
 
+[node name="Player" parent="." instance=ExtResource("1_5mu6h")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -4)
+color = Color(0.718291, 0, 0, 1)
+
+[node name="COWBOY_REPOS" parent="Player" index="2"]
+visible = false
+
+[node name="COWBOY_CHEMISE" parent="Player/COWBOY_REPOS/COWBOYYY" index="1"]
+mesh = SubResource("ArrayMesh_ccs12")
+
+[node name="COWBOY_DEGAINE" parent="Player" index="3"]
+visible = true
+
+[node name="COWBOY_CHEMISE" parent="Player/COWBOY_DEGAINE" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_dcrma")
+
+[node name="Player2" parent="." instance=ExtResource("1_5mu6h")]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0, 0, 4)
+player_id = 1
+color = Color(0.1729, 0.24661, 0.91, 1)
+
+[node name="COWBOY_CHEMISE" parent="Player2/COWBOY_REPOS/COWBOYYY" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_r0hfs")
+
+[node name="COWBOY_CHEMISE" parent="Player2/COWBOY_DEGAINE" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_g0142")
+
+[node name="Camera3D" parent="Player2/CameraRotation" index="0"]
+cull_mask = 1048571
+
 [node name="ViewportControl" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -170,23 +201,7 @@ size_flags_vertical = 6
 [node name="SubViewport" type="SubViewport" parent="ViewportControl/HBoxContainer/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(960, 1080)
-render_target_update_mode = 4
-
-[node name="Player" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("1_5mu6h")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -4)
-color = Color(0.718291, 0, 0, 1)
-
-[node name="COWBOY_REPOS" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="2"]
-visible = false
-
-[node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_REPOS/COWBOYYY" index="1"]
-mesh = SubResource("ArrayMesh_ccs12")
-
-[node name="COWBOY_DEGAINE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player" index="3"]
-visible = true
-
-[node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_DEGAINE" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_dcrma")
+render_target_update_mode = 0
 
 [node name="SubViewportContainer2" type="SubViewportContainer" parent="ViewportControl/HBoxContainer"]
 layout_mode = 2
@@ -196,21 +211,7 @@ size_flags_vertical = 6
 [node name="SubViewport" type="SubViewport" parent="ViewportControl/HBoxContainer/SubViewportContainer2"]
 handle_input_locally = false
 size = Vector2i(960, 1080)
-render_target_update_mode = 4
-
-[node name="Player" parent="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport" instance=ExtResource("1_5mu6h")]
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0, 0, 4)
-player_id = 1
-color = Color(0.1729, 0.24661, 0.91, 1)
-
-[node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/COWBOY_REPOS/COWBOYYY" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_r0hfs")
-
-[node name="COWBOY_CHEMISE" parent="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/COWBOY_DEGAINE" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_g0142")
-
-[node name="Camera3D" parent="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/CameraRotation" index="0"]
-cull_mask = 1048571
+render_target_update_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ViewportControl"]
 visible = false
@@ -635,11 +636,11 @@ data = ExtResource("23_icd5q")
 [connection signal="pressed" from="HUD/ReplayContainer/RejouerButton" to="HUD" method="_on_rejouer_button_pressed"]
 [connection signal="pressed" from="HUD/ReplayContainer/QuitterButton" to="HUD" method="_on_quitter_button_pressed"]
 
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_REPOS"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/COWBOY_DEGAINE"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer/SubViewport/Player/CameraRotation/GunPivot/Colt"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/COWBOY_REPOS"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/COWBOY_DEGAINE"]
-[editable path="ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport/Player/CameraRotation/GunPivot/Colt"]
+[editable path="Player"]
+[editable path="Player/COWBOY_REPOS"]
+[editable path="Player/COWBOY_DEGAINE"]
+[editable path="Player/CameraRotation/GunPivot/Colt"]
+[editable path="Player2"]
+[editable path="Player2/COWBOY_REPOS"]
+[editable path="Player2/COWBOY_DEGAINE"]
+[editable path="Player2/CameraRotation/GunPivot/Colt"]
