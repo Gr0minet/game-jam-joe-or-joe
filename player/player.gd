@@ -7,6 +7,7 @@ signal reloaded(id: int)
 signal died(id: int)
 signal shot
 
+const MOUSE_SENSITIVITY: float = 0.001
 const RECOIL_ANGLE: float = deg_to_rad(-30.0)
 const RELOAD_GUN_ANGLE: float = deg_to_rad(-40.0)
 const FIRE_RATE: float = 0.5
@@ -14,8 +15,8 @@ const DEGAINING_TIME: float = 0.3
 const RELOADING_TIME: float = 0.5
 const SPEED: float = 6.0
 const MAX_BULLET: int = 3
-const CAMERA_X_ROT_MIN: float = deg_to_rad(-89.9)
-const CAMERA_X_ROT_MAX: float = deg_to_rad(70)
+const CAMERA_X_ROT_MIN: float = deg_to_rad(-80)
+const CAMERA_X_ROT_MAX: float = deg_to_rad(80)
 const BASE_ACTIONS: Array[String] = [
 	"rotate_left",
 	"rotate_right",
@@ -48,16 +49,26 @@ const BASE_ACTIONS: Array[String] = [
 @onready var _cowboy_repos: Node3D = $COWBOY_REPOS
 @onready var _chemise_repos: MeshInstance3D = $COWBOY_REPOS/COWBOYYY/COWBOY_CHEMISE
 @onready var _chemise_degaine: MeshInstance3D = $COWBOY_DEGAINE/COWBOY_CHEMISE
+@onready var _viewport_hud: ViewportHUD = $ViewportHUD
+@onready var server_data: ServerData = $ServerData
 
 var _blood_vfx: PackedScene = preload("res://vfx/blood.tscn")
-var mouse_sensitivity: float = 0.002
-var game_started: bool = false
-var can_move: bool = false
+
 
 var _rotation_direction: Vector2 = Vector2.ZERO
-var _movement_direction: Vector2 = Vector2.ZERO
+var _controler_movement_direction: Vector2 = Vector2.ZERO
 var _bullet_count
 var _is_degained: bool = false
+
+
+func initialize() -> void:
+	set_multiplayer_authority(str(name).to_int())
+	server_data.set_multiplayer_authority(1)
+	if is_multiplayer_authority():
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		_camera_3d.current = true
+		_viewport_hud.show()
+		_viewport_hud.set_joe_name(server_data.joe_name)
 
 
 func _ready() -> void:
@@ -65,8 +76,12 @@ func _ready() -> void:
 		set_process(false)
 		set_physics_process(false)
 		return
+	
+	_viewport_hud.hide()
+	#player_id = 0 if str(name).to_int() == 1 else 1
 	_cowboy_degaine.visible = false
 	_cowboy_repos.visible = true
+	
 	recursive_set_visual_layer(_cowboy_degaine, 2**(1 + player_id))
 	recursive_set_visual_layer(_cowboy_repos, 2**(1 + player_id))
 	#_chapeau.layers = 2**(1 + player_id)
@@ -75,47 +90,75 @@ func _ready() -> void:
 	for node: Node3D in _gun.get_children():
 		if node is MeshInstance3D:
 			node.layers = 2**(1 + (1 - player_id))
+	
 	_bullet_count = MAX_BULLET
-	game_started = false
+	server_data.game_started = false
 
 
 func _process(_delta: float) -> void:
-	if not game_started:
+	if not server_data.game_started or not is_multiplayer_authority():
 		return
 	var viewport: Viewport = get_viewport()
 	var scale_factor: float = min(
-			(float(viewport.size.x) / viewport.size.x),
-			(float(viewport.size.y) / viewport.size.y)
+		(float(viewport.size.x) / viewport.size.x),
+		(float(viewport.size.y) / viewport.size.y)
 	)
 	_rotate_camera(_rotation_direction * joystick_rotation_speed * scale_factor)
 
 
 func _physics_process(_delta: float) -> void:
-	if not game_started or not can_move:
+	if not server_data.game_started or not server_data.can_move or not is_multiplayer_authority():
 		return 
-	var movement_dir = transform.basis * Vector3(-_movement_direction.x, 0, -_movement_direction.y)
+	
+	var movement_dir: Vector3
+	if Global.mode == Global.Mode.ONLINE and _controler_movement_direction == Vector2.ZERO:
+		var input_vect: Vector2 = Input.get_vector("left", "right", "forward", "backward")
+		movement_dir = transform.basis * Vector3(-input_vect.x, 0, -input_vect.y)
+	else:
+		movement_dir = transform.basis * Vector3(-_controler_movement_direction.x, 0, -_controler_movement_direction.y)
 	velocity = SPEED * movement_dir
 	move_and_slide()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.device != player_id:
+	if not server_data.game_started:
+		return
+	if Global.mode == Global.Mode.SPLITSCREEN and event.device != player_id:
+		return
+	if Global.mode == Global.Mode.ONLINE and not is_multiplayer_authority():
 		return
 	if event.is_action_pressed("reload"):
 		_reload()
+	elif event.is_action_pressed("ui_cancel"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	elif event is InputEventMouseMotion:
+		var motion: InputEventMouseMotion = event as InputEventMouseMotion 
+		rotate_y(-motion.relative.x * MOUSE_SENSITIVITY)
+		_camera_rotation.rotate_x(motion.relative.y * MOUSE_SENSITIVITY)
+		_camera_rotation.rotation.x = clamp(
+			_camera_rotation.rotation.x,
+			CAMERA_X_ROT_MIN,
+			CAMERA_X_ROT_MAX
+		)
+	elif event.is_action_pressed("shoot"):
+		if _is_degained and _shot_timer.is_stopped():
+			_shoot()
+	elif event.is_action_pressed("degaine"):
+		if _reload_timer.is_stopped():
+			_switch_degained()
 	elif event is InputEventJoypadMotion :
 		var motion_event: InputEventJoypadMotion = event as InputEventJoypadMotion
 		match motion_event.axis:
 			JOY_AXIS_LEFT_X:
 				if abs(motion_event.axis_value) >= DEAD_ZONE:
-					_movement_direction.x = motion_event.axis_value
+					_controler_movement_direction.x = motion_event.axis_value
 				else:
-					_movement_direction.x = 0.0
+					_controler_movement_direction.x = 0.0
 			JOY_AXIS_LEFT_Y:
 				if abs(motion_event.axis_value) >= DEAD_ZONE:
-					_movement_direction.y = motion_event.axis_value
+					_controler_movement_direction.y = motion_event.axis_value
 				else:
-					_movement_direction.y = 0.0
+					_controler_movement_direction.y = 0.0
 			JOY_AXIS_RIGHT_X:
 				if abs(motion_event.axis_value) >= DEAD_ZONE:
 					_rotation_direction.x = motion_event.axis_value
@@ -127,10 +170,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				else:
 					_rotation_direction.y = 0.0
 			JOY_AXIS_TRIGGER_RIGHT:
-				if game_started and _is_degained and _shot_timer.is_stopped() and is_equal_approx(motion_event.axis_value, 1.0):
+				if _is_degained and _shot_timer.is_stopped() and is_equal_approx(motion_event.axis_value, 1.0):
 					_shoot()
 			JOY_AXIS_TRIGGER_LEFT:
-				if game_started and _reload_timer.is_stopped() and is_equal_approx(motion_event.axis_value, 1.0):
+				if _reload_timer.is_stopped() and is_equal_approx(motion_event.axis_value, 1.0):
 					_switch_degained()
 
 
@@ -149,6 +192,7 @@ func _shoot() -> void:
 	_ray_cast_3d.enabled = true
 	_ray_cast_3d.force_raycast_update()
 	_bullet_count -= 1
+	_viewport_hud.on_bullet_shot()
 	shot.emit()
 	AudioManager.play_sound_effect(SoundBank.gunshot_effect)
 	var tween: Tween = get_tree().create_tween()
@@ -170,6 +214,7 @@ func _shoot() -> void:
 	
 	
 func got_shot() -> void:
+	_viewport_hud.on_got_shot()
 	died.emit(player_id)
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_property(self, "rotation:z", deg_to_rad(90), Const.END_ANIMATION_TIME).set_trans(Tween.TRANS_QUART)
@@ -183,7 +228,8 @@ func _reload() -> void:
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_property(_gun_pivot, "rotation:x", RELOAD_GUN_ANGLE, 0.1)
 	await get_tree().create_timer(0.1).timeout
-	can_move = false
+	_viewport_hud.reload_bullets()
+	server_data.can_move = false
 	_reload_timer.start(RELOADING_TIME)
 
 
@@ -194,7 +240,7 @@ func _on_reload_timer_timeout() -> void:
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_property(_gun_pivot, "rotation:x", new_angle, 0.1)
 	if not _is_degained:
-		can_move = true
+		server_data.can_move = true
 
 
 func _switch_degained() -> void:
@@ -204,10 +250,10 @@ func _switch_degained() -> void:
 		_cowboy_repos.visible = true
 		_cowboy_degaine.visible = false
 		target_rotation = deg_to_rad(90.0)
-		can_move = true
+		server_data.can_move = true
 	else:
 		target_rotation = deg_to_rad(0.0)
-		can_move = false
+		server_data.can_move = false
 	tween.tween_property(_gun_pivot, "rotation:x", target_rotation, DEGAINING_TIME)
 	await tween.finished
 	_is_degained = not _is_degained

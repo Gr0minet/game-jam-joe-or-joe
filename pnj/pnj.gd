@@ -46,6 +46,8 @@ func _ready() -> void:
 		set_process(false)
 		set_physics_process(false)
 		return
+	if not is_multiplayer_authority():
+		return
 	movement_speed = randf_range(MIN_SPEED, MAX_SPEED)
 	scale *= randf_range(MIN_SCALE, MAX_SCALE)
 	_animation_player.speed_scale *= 2 * (movement_speed / MAX_SPEED)
@@ -58,6 +60,8 @@ func add_next_position(next_position: Vector3) -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
 	if dont_move:
 		return
 	if _navigation_agent.is_navigation_finished():
@@ -79,5 +83,6 @@ func got_shot() -> void:
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_property(self, "rotation:z", deg_to_rad(90), Const.END_ANIMATION_TIME).set_trans(Tween.TRANS_QUART)
 	await tween.finished
-	died.emit()
-	queue_free()
+	if is_multiplayer_authority():
+		died.emit()
+		queue_free()

@@ -1,0 +1,129 @@
+[gd_scene load_steps=7 format=3 uid="uid://btruhebna3p28"]
+
+[ext_resource type="Script" path="res://HUD/hud.gd" id="1_4bwya"]
+[ext_resource type="PackedScene" uid="uid://dgkkn1g860t1y" path="res://HUD/viewport_hud.tscn" id="2_kixh1"]
+[ext_resource type="Texture2D" uid="uid://ddq6xcpknuv0s" path="res://HUD/sprites_base/Bouton_Rejouer_off.png" id="3_qinuo"]
+[ext_resource type="Texture2D" uid="uid://bb73pmk4ydkur" path="res://HUD/sprites_base/Bouton_Rejouer_on.png" id="4_3042o"]
+[ext_resource type="Texture2D" uid="uid://cbmyy48cl3icj" path="res://HUD/sprites_base/Bouton_Quitter_off.png" id="5_dt734"]
+[ext_resource type="Texture2D" uid="uid://c10yfmol3rk42" path="res://HUD/sprites_base/Bouton_Quitter_on.png" id="6_wom1b"]
+
+[node name="SplitScreenControl" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(960, 1080)
+render_target_update_mode = 0
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer2"]
+handle_input_locally = false
+size = Vector2i(960, 1080)
+render_target_update_mode = 0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("1_4bwya")
+
+[node name="CountdownLabel" type="Label" parent="HUD"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 256
+text = "3"
+
+[node name="Countdown" type="Timer" parent="HUD"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ViewportHUD" parent="HUD/HBoxContainer" instance=ExtResource("2_kixh1")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ViewportHUD2" parent="HUD/HBoxContainer" instance=ExtResource("2_kixh1")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ReplayContainer" type="VBoxContainer" parent="HUD"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -485.0
+offset_top = -379.0
+offset_right = 485.0
+offset_bottom = 379.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="VictoriousJoe" type="Label" parent="HUD/ReplayContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 96
+text = "Joe Anderson gagne !"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RejouerButton" type="TextureButton" parent="HUD/ReplayContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_bottom = NodePath("../QuitterButton")
+texture_normal = ExtResource("3_qinuo")
+texture_hover = ExtResource("4_3042o")
+texture_focused = ExtResource("4_3042o")
+
+[node name="QuitterButton" type="TextureButton" parent="HUD/ReplayContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../RejouerButton")
+texture_normal = ExtResource("5_dt734")
+texture_hover = ExtResource("6_wom1b")
+texture_focused = ExtResource("6_wom1b")
+
+[connection signal="timeout" from="HUD/Countdown" to="HUD" method="_on_countdown_timeout"]
+[connection signal="pressed" from="HUD/ReplayContainer/RejouerButton" to="HUD" method="_on_rejouer_button_pressed"]
+[connection signal="pressed" from="HUD/ReplayContainer/QuitterButton" to="HUD" method="_on_quitter_button_pressed"]

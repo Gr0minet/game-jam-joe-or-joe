@@ -8,73 +8,81 @@ extends Node3D
 	"Joe Williams",
 	"Joe Anderson"
 ]
-@onready var _players: Array[Player] = [
-	$Player,
-	$Player2
-]
+@onready var _players: Array[Player] = [$Player, $Player2]
 @onready var _sub_viewports: Array[SubViewport] = [
-	$ViewportControl/HBoxContainer/SubViewportContainer/SubViewport,
-	$ViewportControl/HBoxContainer/SubViewportContainer2/SubViewport
+	$SplitScreenControl/HBoxContainer/SubViewportContainer/SubViewport,
+	$SplitScreenControl/HBoxContainer/SubViewportContainer2/SubViewport
 ]
-@onready var _viewport_huds: Array[ViewportHUD] = [
-	$HUD/HBoxContainer/ViewportHUD,
-	$HUD/HBoxContainer/ViewportHUD2
-]
+
 @onready var pnj_container: Node3D = $PNJContainer
 @onready var side_region: NavigationRegion3D = $SideRegion
 @onready var center_region: NavigationRegion3D = $CenterRegion
 @onready var outside_region: NavigationRegion3D = $OutsideRegion
-@onready var hud: HUD = $HUD
-@onready var viewport_control: Control = $ViewportControl
+@onready var split_screen: Control = $SplitScreenControl
+@onready var main_hud: HUD = $MainHUD
 
-
+var player_scene: PackedScene = preload("res://player/player.tscn")
 var pnj_scene: PackedScene = preload("res://pnj/pnj_anim.tscn")
 var main_menu_scene: PackedScene = preload("res://menu/main_menu.tscn")
 
 
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	get_tree().get_root().size_changed.connect(_window_resize) 
-	_window_resize()
-	
-	for i in len(_players):
-		_viewport_huds[i].set_joe_name(_joes_name[i])
-		_players[i].shot.connect(_viewport_huds[i].on_bullet_shot)
-		_players[i].died.connect(_on_player_died)
-		_players[i].reloaded.connect(_on_player_reloaded)
-	
-	_spawn_initial_pnj()
-	
-	_start_countdown.call_deferred()
-	
+	if Global.mode == Global.Mode.SPLITSCREEN:
+		_initialize_split_screen.call_deferred()
+	elif Global.mode == Global.Mode.ONLINE:
+		_initialize_online.call_deferred()
 
-func _start_countdown() -> void:
+	_start_countdown.call_deferred()
+
+
+func _initialize_split_screen() -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
-	
-	_setup_initial_pnj_position()
-	hud.restart.connect(_restart_game)
-	hud.start_time(start_countdown)
+	split_screen.visible = true
+	for i: int in len(_players):
+		_players[i].reparent(_sub_viewports[i])
+	_spawn_initial_pnj()
+
+
+func _initialize_online() -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	split_screen.visible = false
+	_players[0].name = str(1)
+	for peer_id: int in Lobby.players.keys():
+		if peer_id != 1:
+			_players[1].name = str(peer_id)
+	_players[0].server_data.joe_name = "Anderson"
+	_players[1].server_data.joe_name = "Williams"
+	_players[0].initialize()
+	_players[1].initialize()
+
+	if not multiplayer.is_server():
+		return
+
+	if multiplayer.is_server():
+		_spawn_initial_pnj()
+		_setup_initial_pnj_position()
+
+
+func _start_countdown() -> void:	
+	main_hud.restart.connect(_restart_game)
+	main_hud.start_time(start_countdown)
 	await get_tree().create_timer(start_countdown).timeout
 	AudioManager.play_music(SoundBank.main_music, 0.0, false)
 	
 	for player: Player in _players:
-		player.can_move = true
-		player.game_started = true
+		player.server_data.can_move = true
+		player.server_data.game_started = true
 	for pnj: PNJ in pnj_container.get_children():
 		pnj.dont_move = false
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _spawn_initial_pnj() -> void:
 	for i in range(pnj_number):
 		var new_pnj: PNJ = pnj_scene.instantiate()
 		new_pnj.died.connect(_on_pnj_died)
-		pnj_container.add_child(new_pnj)
+		pnj_container.add_child(new_pnj, true)
 		new_pnj.dont_move = true
 
 
@@ -95,7 +103,7 @@ func _spawn_pnj() -> void:
 	new_pnj.add_next_position(_get_random_position(center_region.get_rid()))
 	new_pnj.add_next_position(_get_random_position(outside_region.get_rid()))
 	new_pnj.died.connect(_on_pnj_died)
-	pnj_container.add_child(new_pnj)
+	pnj_container.add_child(new_pnj, true)
 	new_pnj.dont_move = false
 
 
@@ -108,14 +116,14 @@ func _get_random_position(region: RID) -> Vector3:
 
 
 func _on_pnj_died() -> void:
-	_spawn_pnj()
+	if multiplayer.is_server():
+		_spawn_pnj()
 
 
 func _on_player_died(player_id: int) -> void:
-	_viewport_huds[player_id].on_got_shot()
 	await get_tree().create_timer(Const.END_ANIMATION_TIME).timeout
-	viewport_control.modulate = viewport_control.modulate.darkened(0.6)
-	hud.show_replay_screen(_joes_name[1 - player_id])
+	split_screen.modulate = split_screen.modulate.darkened(0.7)
+	main_hud.show_replay_screen(_joes_name[1 - player_id])
 
 
 func _restart_game() -> void:
@@ -124,18 +132,3 @@ func _restart_game() -> void:
 
 func _go_to_main_menu() -> void:
 	get_tree().change_scene_to_packed(main_menu_scene)
-
-
-func _on_player_reloaded(player_id: int) -> void:
-	_viewport_huds[player_id]._reload_bullets()
-
-
-func _window_resize() -> void:
-	var viewport_size: Vector2 = get_viewport().size
-	for _sub_viewport: SubViewport in _sub_viewports:
-		_sub_viewport.size.y = int(viewport_size.y)
-		_sub_viewport.size.x = int(viewport_size.x / 2.0)
-
-
-func _on_button_pressed() -> void:
-	pass # Replace with function body.

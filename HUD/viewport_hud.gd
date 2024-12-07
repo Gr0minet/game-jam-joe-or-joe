@@ -15,10 +15,10 @@ var bullet_number: int
 func _ready() -> void:
 	got_shot.visible = false
 	bullet_number = MAX_BULLET
-	_reload_bullets()
+	reload_bullets()
 
 
-func _reload_bullets() -> void:
+func reload_bullets() -> void:
 	bullet_number = MAX_BULLET
 	for bullet: TextureRect in bullets.get_children():
 		bullet.texture = balle_pleine

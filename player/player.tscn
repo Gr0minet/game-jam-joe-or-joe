@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdv34fi2enh62"]
+[gd_scene load_steps=13 format=3 uid="uid://cdv34fi2enh62"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_pc6hn"]
+[ext_resource type="Script" path="res://player/server_data.gd" id="1_pc6hn"]
 [ext_resource type="PackedScene" uid="uid://c0eeukotbomnw" path="res://player/COWBOY_REPOS.glb" id="2_5owxw"]
+[ext_resource type="Script" path="res://player/player.gd" id="2_pwjvr"]
 [ext_resource type="PackedScene" uid="uid://b3ogsb2qqtij0" path="res://player/COWBOY_DEGAINE.glb" id="3_61hky"]
 [ext_resource type="PackedScene" uid="uid://bw3d2v4j6j3qw" path="res://vfx/gunfire.tscn" id="3_lxa0j"]
 [ext_resource type="PackedScene" uid="uid://bcyaldm21ienb" path="res://mesh/Colt.glb" id="4_1haff"]
+[ext_resource type="PackedScene" uid="uid://dgkkn1g860t1y" path="res://HUD/viewport_hud.tscn" id="6_27vqx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcj6b"]
 radius = 0.128529
@@ -15,12 +17,37 @@ height = 1.56606
 radius = 0.223538
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8n6h"]
-albedo_color = Color(0.718291, 0, 0, 1)
+resource_local_to_scene = true
+albedo_color = Color(0, 0, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lwa1"]
+albedo_color = Color(0.19, 0.19, 1, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ulee7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("CameraRotation/Camera3D:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("ServerData:game_started")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("ServerData:can_move")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath("ServerData:joe_name")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 15
+script = ExtResource("2_pwjvr")
+
+[node name="ServerData" type="Node3D" parent="."]
 script = ExtResource("1_pc6hn")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
@@ -47,8 +74,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRotation"]
 transform = Transform3D(-1, -3.55271e-15, -5.96046e-08, -3.55271e-15, 1, -1.05879e-22, 5.96046e-08, 1.05879e-22, -1, 0, 0, 0)
-cull_mask = 1048573
-current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="CameraRotation/Camera3D"]
 transform = Transform3D(-1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, 0)
@@ -82,6 +107,13 @@ one_shot = true
 
 [node name="ShotTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ViewportHUD" parent="." instance=ExtResource("6_27vqx")]
+mouse_filter = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ulee7")
 
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
 

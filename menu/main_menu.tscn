@@ -189,6 +189,7 @@ theme_override_font_sizes/font_size = 64
 text = "Retour menu principal"
 
 [node name="HostGameMenu" type="Control" parent="LAN"]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -213,6 +214,12 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 64
 text = "En attente d'un autre Joe..."
 
+[node name="StartButton" type="Button" parent="LAN/HostGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 64
+text = "Start game"
+
 [node name="BackButton" type="Button" parent="LAN/HostGameMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -220,7 +227,6 @@ theme_override_font_sizes/font_size = 64
 text = "Retour"
 
 [node name="JoinGameMenu" type="Control" parent="LAN"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -242,17 +248,38 @@ offset_bottom = 98.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer"]
+[node name="UIBeforeConnect" type="VBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="LAN/JoinGameMenu/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Nom : Joe "
+
+[node name="JoeName" type="LineEdit" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+placeholder_text = "Williams"
+alignment = 1
+expand_to_text_length = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Adresse IP : "
 
-[node name="JoinIP" type="LineEdit" parent="LAN/JoinGameMenu/VBoxContainer/HBoxContainer2"]
+[node name="JoinIP" type="LineEdit" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer2"]
 custom_minimum_size = Vector2(550, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
@@ -260,12 +287,19 @@ placeholder_text = "127.0.0.1"
 alignment = 1
 expand_to_text_length = true
 
-[node name="JoinButton" type="Button" parent="LAN/JoinGameMenu/VBoxContainer"]
+[node name="JoinButton" type="Button" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 64
 text = "Rejoindre"
+
+[node name="ConnectedLabel" type="Label" parent="LAN/JoinGameMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Connecté ! En attente du démarrage
+ de la partie par le host..."
+horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="LAN/JoinGameMenu/VBoxContainer"]
 layout_mode = 2
@@ -281,6 +315,8 @@ text = "Retour"
 [connection signal="pressed" from="LAN/LanMenu/HostGameButton" to="LAN" method="_on_host_game_pressed"]
 [connection signal="pressed" from="LAN/LanMenu/JoinGameButton" to="LAN" method="_on_join_game_pressed"]
 [connection signal="pressed" from="LAN/LanMenu/BackToMenuButton" to="." method="_on_back_to_menu_pressed"]
+[connection signal="pressed" from="LAN/HostGameMenu/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="LAN/HostGameMenu/VBoxContainer/BackButton" to="LAN" method="_on_back_button_pressed"]
-[connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/JoinButton" to="LAN" method="_on_join_button_pressed"]
+[connection signal="text_changed" from="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3/JoeName" to="LAN" method="_on_joe_name_text_changed"]
+[connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/JoinButton" to="LAN" method="_on_join_button_pressed"]
 [connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/BackButton" to="LAN" method="_on_back_button_pressed"]

@@ -4,7 +4,6 @@ extends CanvasLayer
 
 signal restart
 
-@onready var h_box_container: HBoxContainer = $HBoxContainer
 @onready var _countdown_label: Label = $CountdownLabel
 @onready var _victorious_joe: Label = $ReplayContainer/VictoriousJoe
 @onready var _replay_container: VBoxContainer = $ReplayContainer
@@ -24,7 +23,6 @@ func _process(_delta: float) -> void:
 
 func show_replay_screen(victorious_joe: String) -> void:
 	_victorious_joe.text = victorious_joe + " gagne !"
-	h_box_container.modulate = h_box_container.modulate.darkened(0.6)
 	_replay_container.visible = true
 	_rejouer_button.grab_focus()
 

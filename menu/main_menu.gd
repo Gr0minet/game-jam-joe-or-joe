@@ -18,6 +18,7 @@ const INTRO_TIME: float = 2.0
 var menu_background: CompressedTexture2D = preload("res://HUD/sprites/background.jpg")
 var story_background: CompressedTexture2D = preload("res://sprites/story_background.jpg")
 var game_scene: PackedScene = preload("res://game.tscn")
+var game_scene_path: NodePath = "res://game.tscn"
 var state: State = State.MENU
 var doing_introduction: bool = false
 
@@ -58,6 +59,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_jouer_button_pressed() -> void:
+	Global.mode = Global.Mode.SPLITSCREEN
 	doing_introduction = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	AudioManager.fade_out_music(TRANSITION_TIMES[1])
@@ -107,4 +109,7 @@ func _on_back_to_menu_pressed() -> void:
 	lan.visible = false
 	base_menu.visible = true
 	state = State.MENU
-	
+
+
+func _on_start_button_pressed() -> void:
+	Lobby.load_game.rpc(game_scene_path)
