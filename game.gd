@@ -42,6 +42,7 @@ func _initialize_split_screen() -> void:
 	for i: int in len(_players):
 		_players[i].reparent(_sub_viewports[i])
 	_spawn_initial_pnj()
+	_setup_initial_pnj_position()
 
 
 func _initialize_online() -> void:
