@@ -234,6 +234,18 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 64
 text = "Option PC en carton"
 
+[node name="MarginContainer" type="MarginContainer" parent="MainHUD/PauseContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="ReprendreButton" type="Button" parent="MainHUD/PauseContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_neighbor_top = NodePath("../../../ReplayContainer/RejouerButton")
+theme_override_font_sizes/font_size = 64
+text = "Reprendre"
+
 [node name="QuitterButton" type="TextureButton" parent="MainHUD/PauseContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -603,6 +615,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5m8ep")
 [connection signal="pressed" from="MainHUD/ReplayContainer/RejouerButton" to="MainHUD" method="_on_rejouer_button_pressed"]
 [connection signal="pressed" from="MainHUD/ReplayContainer/QuitterButton" to="MainHUD" method="_on_quitter_button_pressed"]
 [connection signal="toggled" from="MainHUD/PauseContainer/PanelContainer/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="pressed" from="MainHUD/PauseContainer/MarginContainer/ReprendreButton" to="." method="_on_reprendre_button_pressed"]
 [connection signal="pressed" from="MainHUD/PauseContainer/QuitterButton" to="MainHUD" method="_on_quitter_button_pressed"]
 
 [editable path="Player"]

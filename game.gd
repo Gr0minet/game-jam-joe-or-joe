@@ -26,6 +26,7 @@ var restart_players_count: int = 0
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if Global.potato:
 		voxel_gi.hide()
 		directional_light_3d.shadow_enabled = false
@@ -185,3 +186,9 @@ func _on_check_box_toggled(toggled_on: bool) -> void:
 		voxel_gi.show()
 		directional_light_3d.shadow_enabled = true
 		Global.potato = false
+
+
+func _on_reprendre_button_pressed() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	main_hud.hide_pause_menu()
+	Global.game_paused = false
