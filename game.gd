@@ -156,6 +156,6 @@ func reload_game():
 	get_tree().reload_current_scene()
 
 
-func _on_player_disconnected(peer_id: int) -> void:
+func _on_player_disconnected(_peer_id: int) -> void:
 	get_tree().change_scene_to_packed(main_menu_scene)
 	Global.back_to_menu_because_disconnect = true

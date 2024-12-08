@@ -58,7 +58,7 @@ func _on_back_button_pressed() -> void:
 
 func _on_join_button_pressed() -> void:
 	state = State.CLIENT
-	Lobby.join_game()
+	Lobby.join_game(join_ip.text)
 
 
 func _on_player_joined(peer_id: int, _player_info: Dictionary) ->  void:
