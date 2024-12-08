@@ -49,6 +49,7 @@ func create_game():
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
+	upnp_setup()
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
@@ -108,3 +109,20 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
+
+
+func upnp_setup():
+	var upnp = UPNP.new()
+	
+	var discover_result = upnp.discover()
+	assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \
+		"UPNP Discover Failed! Error %s" % discover_result)
+
+	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \
+		"UPNP Invalid Gateway!")
+
+	var map_result = upnp.add_port_mapping(Lobby.PORT)
+	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
+		"UPNP Port Mapping Failed! Error %s" % map_result)
+	
+	print("Success! Join Address: %s" % upnp.query_external_address())

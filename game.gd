@@ -16,6 +16,8 @@ extends Node3D
 @onready var outside_region: NavigationRegion3D = $OutsideRegion
 @onready var split_screen: Control = $SplitScreenControl
 @onready var main_hud: HUD = $MainHUD
+@onready var voxel_gi: VoxelGI = $VoxelGI
+@onready var directional_light_3d: DirectionalLight3D = $DirectionalLight3D
 
 var player_scene: PackedScene = preload("res://player/player.tscn")
 var pnj_scene: PackedScene = preload("res://pnj/pnj_anim.tscn")
@@ -61,6 +63,18 @@ func _initialize_online() -> void:
 		_setup_initial_pnj_position()
 	
 	_start_countdown()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if not Global.game_paused:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			main_hud.show_pause_menu()
+			Global.game_paused = true
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			main_hud.hide_pause_menu()
+			Global.game_paused = false
 
 
 func _start_countdown() -> void:	
@@ -157,3 +171,12 @@ func reload_game():
 func _on_player_disconnected(_peer_id: int) -> void:
 	get_tree().change_scene_to_packed(main_menu_scene)
 	Global.back_to_menu_because_disconnect = true
+
+
+func _on_check_box_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		voxel_gi.hide()
+		directional_light_3d.shadow_enabled = false
+	else:
+		voxel_gi.show()
+		directional_light_3d.shadow_enabled = true

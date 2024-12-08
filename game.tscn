@@ -209,6 +209,40 @@ texture_normal = ExtResource("8_dr3a3")
 texture_hover = ExtResource("9_x5lbw")
 texture_focused = ExtResource("9_x5lbw")
 
+[node name="PauseContainer" type="VBoxContainer" parent="MainHUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -383.0
+offset_top = -204.5
+offset_right = 383.0
+offset_bottom = 204.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MainHUD/PauseContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CheckBox" type="CheckBox" parent="MainHUD/PauseContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 64
+text = "Option PC en carton"
+
+[node name="QuitterButton" type="TextureButton" parent="MainHUD/PauseContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_neighbor_top = NodePath("../../ReplayContainer/RejouerButton")
+texture_normal = ExtResource("8_dr3a3")
+texture_hover = ExtResource("9_x5lbw")
+texture_focused = ExtResource("9_x5lbw")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0.866025, -0.5, 0, 0.5, 0.866025, 1, 3.78552e-08, -2.18557e-08, 8.5, 10, 2)
 shadow_enabled = true
@@ -568,6 +602,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5m8ep")
 [connection signal="timeout" from="MainHUD/Countdown" to="MainHUD" method="_on_countdown_timeout"]
 [connection signal="pressed" from="MainHUD/ReplayContainer/RejouerButton" to="MainHUD" method="_on_rejouer_button_pressed"]
 [connection signal="pressed" from="MainHUD/ReplayContainer/QuitterButton" to="MainHUD" method="_on_quitter_button_pressed"]
+[connection signal="toggled" from="MainHUD/PauseContainer/PanelContainer/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="pressed" from="MainHUD/PauseContainer/QuitterButton" to="MainHUD" method="_on_quitter_button_pressed"]
 
 [editable path="Player"]
 [editable path="Player/COWBOY_REPOS"]

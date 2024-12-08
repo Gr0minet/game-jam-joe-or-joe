@@ -131,8 +131,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("reload"):
 		_reload.rpc()
-	elif event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event is InputEventMouseMotion:
 		if Global.mode != Global.Mode.ONLINE:
 			return

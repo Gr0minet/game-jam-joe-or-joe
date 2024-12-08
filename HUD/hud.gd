@@ -9,12 +9,14 @@ signal restart
 @onready var _countdown: Timer = $Countdown
 @onready var _rejouer_button: TextureButton = $ReplayContainer/RejouerButton
 @onready var _waiting_joe: Label = $ReplayContainer/WaitingJoe
+@onready var _pause_container: VBoxContainer = $PauseContainer
 
 
 func _ready() -> void:
 	_waiting_joe.hide()
 	_replay_container.hide()
 	_rejouer_button.show()
+	_pause_container.hide()
 
 
 func start_time(start_countdown: int) -> void:
@@ -59,3 +61,11 @@ func _on_rejouer_button_pressed() -> void:
 		restart.emit(multiplayer.get_unique_id())
 	else:
 		restart.emit()
+
+
+func show_pause_menu() -> void:
+	_pause_container.show()
+
+
+func hide_pause_menu() -> void:
+	_pause_container.hide()
