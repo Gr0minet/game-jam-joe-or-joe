@@ -69,7 +69,6 @@ func initialize() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		_camera_3d.current = true
 		_viewport_hud.show()
-		_viewport_hud.set_joe_name(joe_name)
 
 
 func _ready() -> void:
@@ -95,6 +94,7 @@ func _ready() -> void:
 	
 	_bullet_count = MAX_BULLET
 	server_data.game_started = false
+	_viewport_hud.set_joe_name("Joe " + joe_name)
 
 
 func _process(_delta: float) -> void:
@@ -201,7 +201,7 @@ func _shoot() -> void:
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_property(_gun_pivot, "rotation:x", RECOIL_ANGLE, 0.1)
 	tween.tween_property(_gun_pivot, "rotation:x", 0, 0.1)
-	if _ray_cast_3d.is_colliding():
+	if _ray_cast_3d.is_colliding() and not _ray_cast_3d.get_collider() == self:
 		var collision_point: Vector3 = _ray_cast_3d.get_collision_point()
 		var blood_effect: AnimatedSprite3D = _blood_vfx.instantiate()
 		var effect_direction: Vector3 = (position - _ray_cast_3d.get_collider().position).normalized()

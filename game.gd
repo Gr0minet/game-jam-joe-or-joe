@@ -135,6 +135,7 @@ func _on_pnj_died() -> void:
 		_spawn_pnj()
 
 
+@rpc("call_local")
 func _on_player_died(player_id: int) -> void:
 	await get_tree().create_timer(Const.END_ANIMATION_TIME).timeout
 	split_screen.modulate = split_screen.modulate.darkened(0.7)
