@@ -65,8 +65,7 @@ func _initialize_online() -> void:
 	if multiplayer.is_server():
 		_spawn_initial_pnj()
 		_setup_initial_pnj_position()
-	
-	_start_countdown()
+		_start_countdown.rpc()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -81,6 +80,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Global.game_paused = false
 
 
+@rpc("call_local", "reliable")
 func _start_countdown() -> void:	
 	main_hud.restart.connect(_restart_game)
 	main_hud.start_time(start_countdown)
