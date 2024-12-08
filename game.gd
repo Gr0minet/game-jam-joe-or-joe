@@ -26,6 +26,9 @@ var restart_players_count: int = 0
 
 
 func _ready() -> void:
+	if Global.potato:
+		voxel_gi.hide()
+		directional_light_3d.shadow_enabled = false
 	restart_players_count = 0
 	if Global.mode == Global.Mode.SPLITSCREEN:
 		_initialize_split_screen.call_deferred()
@@ -177,6 +180,8 @@ func _on_check_box_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		voxel_gi.hide()
 		directional_light_3d.shadow_enabled = false
+		Global.potato = true
 	else:
 		voxel_gi.show()
 		directional_light_3d.shadow_enabled = true
+		Global.potato = false
