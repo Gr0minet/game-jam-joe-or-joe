@@ -4,10 +4,6 @@ extends Node3D
 @export var start_countdown: int = 3
 @export var pnj_number: int = 50
 
-@onready var _joes_name: Array[String] = [
-	"Joe Williams",
-	"Joe Anderson"
-]
 @onready var _players: Array[Player] = [$Player, $Player2]
 @onready var _sub_viewports: Array[SubViewport] = [
 	$SplitScreenControl/HBoxContainer/SubViewportContainer/SubViewport,
@@ -23,15 +19,19 @@ extends Node3D
 
 var player_scene: PackedScene = preload("res://player/player.tscn")
 var pnj_scene: PackedScene = preload("res://pnj/pnj_anim.tscn")
-var main_menu_scene: PackedScene = preload("res://menu/main_menu.tscn")
+var main_menu_scene: PackedScene = load("res://menu/main_menu.tscn")
+var restart_players_count: int = 0
 
 
 func _ready() -> void:
+	restart_players_count = 0
 	if Global.mode == Global.Mode.SPLITSCREEN:
 		_initialize_split_screen.call_deferred()
 	elif Global.mode == Global.Mode.ONLINE:
 		_initialize_online.call_deferred()
 
+	_players[0].died.connect(_on_player_died)
+	_players[1].died.connect(_on_player_died)
 	_start_countdown.call_deferred()
 
 
@@ -52,8 +52,7 @@ func _initialize_online() -> void:
 	for peer_id: int in Lobby.players.keys():
 		if peer_id != 1:
 			_players[1].name = str(peer_id)
-	_players[0].server_data.joe_name = "Anderson"
-	_players[1].server_data.joe_name = "Williams"
+	Lobby.player_disconnected.connect(_on_player_disconnected)
 	_players[0].initialize()
 	_players[1].initialize()
 
@@ -123,12 +122,39 @@ func _on_pnj_died() -> void:
 func _on_player_died(player_id: int) -> void:
 	await get_tree().create_timer(Const.END_ANIMATION_TIME).timeout
 	split_screen.modulate = split_screen.modulate.darkened(0.7)
-	main_hud.show_replay_screen(_joes_name[1 - player_id])
+	_players[1 - player_id].show_win_label(true)
+	_players[player_id].show_win_label(false)
+	main_hud.show_replay_screen()
 
 
-func _restart_game() -> void:
-	get_tree().reload_current_scene()
+func _restart_game(peer_id: int = -1) -> void:
+	if peer_id == -1:
+		get_tree().reload_current_scene()
+	else:
+		player_wants_to_restart.rpc()
 
 
 func _go_to_main_menu() -> void:
 	get_tree().change_scene_to_packed(main_menu_scene)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func player_wants_to_restart() -> void:
+	if is_multiplayer_authority():
+		restart_players_count += 1
+		if restart_players_count == 2:
+			reload_game.rpc()
+
+
+@rpc("call_local", "reliable")
+func reload_game():
+	if is_multiplayer_authority():
+		for pnj: PNJ in pnj_container.get_children():
+			pnj.queue_free()
+	await get_tree().create_timer(0.1).timeout
+	get_tree().reload_current_scene()
+
+
+func _on_player_disconnected(peer_id: int) -> void:
+	get_tree().change_scene_to_packed(main_menu_scene)
+	Global.back_to_menu_because_disconnect = true

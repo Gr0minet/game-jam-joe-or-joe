@@ -1,7 +1,7 @@
 extends Control
 
 
-enum State {MENU, HOWTOPLAY, CREDIT, LAN}
+enum State {MENU, HOWTOPLAY, CREDIT, DISCONNECTED, LAN}
 const TRANSITION_TIMES: Array[float] = [1.0, 2.0, 5.0, 5.7]
 const INTRO_TIME: float = 2.0
 
@@ -14,6 +14,7 @@ const INTRO_TIME: float = 2.0
 @onready var credit_button: TextureButton = $BaseMenu/MarginContainer/Buttons/CreditButton
 @onready var lan: Control = $LAN
 @onready var base_menu: Control = $BaseMenu
+@onready var disconnected_container: PanelContainer = $DisconnectedContainer
 
 var menu_background: CompressedTexture2D = preload("res://HUD/sprites/background.jpg")
 var story_background: CompressedTexture2D = preload("res://sprites/story_background.jpg")
@@ -23,12 +24,18 @@ var state: State = State.MENU
 var doing_introduction: bool = false
 
 func _ready() -> void:
+	disconnected_container.hide()
 	lan.visible = false
 	background.texture = menu_background
 	background.modulate = Color.WHITE
 	base_menu.modulate = Color.WHITE
 	base_menu.visible = true
 	AudioManager.play_music(SoundBank.main_menu_music)
+	if Global.back_to_menu_because_disconnect:
+		base_menu.hide()
+		disconnected_container.show()
+		Global.back_to_menu_because_disconnect = false
+		state = State.DISCONNECTED
 
 
 func _process(_delta: float) -> void:
@@ -49,6 +56,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif state == State.CREDIT:
 				new_focused_button = credit_button
 				credits.visible = false
+			elif state == State.DISCONNECTED:
+				disconnected_container.hide()
 			base_menu.visible = true
 			state = State.MENU
 	elif get_viewport().gui_get_focus_owner() == null and event is InputEventJoypadButton:

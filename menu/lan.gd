@@ -11,7 +11,6 @@ enum State {NONE, CLIENT, SERVER}
 @onready var ui_before_connect: VBoxContainer = $JoinGameMenu/VBoxContainer/UIBeforeConnect
 @onready var join_button: Button = $JoinGameMenu/VBoxContainer/UIBeforeConnect/JoinButton
 @onready var join_ip: LineEdit = $JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer2/JoinIP
-@onready var joe_name: LineEdit = $JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3/JoeName
 @onready var start_button: Button = $HostGameMenu/VBoxContainer/StartButton
 
 var state: State = State.NONE
@@ -25,7 +24,6 @@ func _ready() -> void:
 	start_button.visible = false
 	Lobby.player_connected.connect(_on_player_joined)
 	Lobby.player_disconnected.connect(_on_player_disconnected)
-	Lobby.player_info["name"] = "Williams"
 
 
 func _on_host_game_pressed() -> void:
@@ -50,7 +48,7 @@ func _on_back_button_pressed() -> void:
 			start_button.visible = false
 			host_game_menu.visible = false
 			lan_menu.visible = true
-			joined_player_label.text = "En attente d'un autre Joe..."
+			joined_player_label.text = "En attente de Joe Williams..."
 	else:
 		join_game_menu.visible = false
 		host_game_menu.visible = false
@@ -90,8 +88,4 @@ func _update_joined_player_label() -> void:
 		joined_player_label.text = ""
 		for player in Lobby.players:
 			if player != 1:
-				joined_player_label.text += "Joined player: " + Lobby.players[player]["name"] + "\n"
-
-
-func _on_joe_name_text_changed(new_text: String) -> void:
-	Lobby.player_info["name"] = new_text
+				joined_player_label.text += "Joe Williams a rejoint la partie !\n"

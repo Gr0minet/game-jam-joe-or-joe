@@ -143,6 +143,27 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_hfkto")
 
+[node name="DisconnectedContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 371.0
+offset_top = 238.0
+offset_right = -371.0
+offset_bottom = -238.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Label" type="Label" parent="DisconnectedContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "The other Joe was a coward and disconnected..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [node name="LAN" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -212,7 +233,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 64
-text = "En attente d'un autre Joe..."
+text = "En attente de Joe Williams..."
 
 [node name="StartButton" type="Button" parent="LAN/HostGameMenu/VBoxContainer"]
 layout_mode = 2
@@ -252,23 +273,6 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Nom : Joe "
-
-[node name="JoeName" type="LineEdit" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 64
-placeholder_text = "Williams"
-alignment = 1
-expand_to_text_length = true
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -298,7 +302,7 @@ text = "Rejoindre"
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Connecté ! En attente du démarrage
- de la partie par le host..."
+ de la partie par Joe Anderson..."
 horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="LAN/JoinGameMenu/VBoxContainer"]
@@ -317,6 +321,5 @@ text = "Retour"
 [connection signal="pressed" from="LAN/LanMenu/BackToMenuButton" to="." method="_on_back_to_menu_pressed"]
 [connection signal="pressed" from="LAN/HostGameMenu/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="LAN/HostGameMenu/VBoxContainer/BackButton" to="LAN" method="_on_back_button_pressed"]
-[connection signal="text_changed" from="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/HBoxContainer3/JoeName" to="LAN" method="_on_joe_name_text_changed"]
 [connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/UIBeforeConnect/JoinButton" to="LAN" method="_on_join_button_pressed"]
 [connection signal="pressed" from="LAN/JoinGameMenu/VBoxContainer/BackButton" to="LAN" method="_on_back_button_pressed"]

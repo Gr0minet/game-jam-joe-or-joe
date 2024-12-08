@@ -27,6 +27,8 @@ var dont_move: bool = false:
 	set(value):
 		if Engine.is_editor_hint():
 			return
+		if not is_node_ready():
+			await ready
 		dont_move = value
 		if dont_move:
 			animation_player.stop()
@@ -78,6 +80,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 
+@rpc("any_peer", "call_local")
 func got_shot() -> void:
 	set_physics_process(false)
 	var tween: Tween = get_tree().create_tween()

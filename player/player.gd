@@ -27,6 +27,7 @@ const BASE_ACTIONS: Array[String] = [
 @export var player_id: int = 0
 @export var joystick_rotation_speed: float = 0.05
 @export var DEAD_ZONE: float = 0.1
+@export var joe_name: String = "Anderson"
 @export var color: Color = Color.BLUE:
 	set(value):
 		if not Engine.is_editor_hint():
@@ -68,7 +69,7 @@ func initialize() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		_camera_3d.current = true
 		_viewport_hud.show()
-		_viewport_hud.set_joe_name(server_data.joe_name)
+		_viewport_hud.set_joe_name(joe_name)
 
 
 func _ready() -> void:
@@ -77,7 +78,8 @@ func _ready() -> void:
 		set_physics_process(false)
 		return
 	
-	_viewport_hud.hide()
+	if Global.mode == Global.Mode.ONLINE:
+		_viewport_hud.hide()
 	#player_id = 0 if str(name).to_int() == 1 else 1
 	_cowboy_degaine.visible = false
 	_cowboy_repos.visible = true
@@ -128,10 +130,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Global.mode == Global.Mode.ONLINE and not is_multiplayer_authority():
 		return
 	if event.is_action_pressed("reload"):
-		_reload()
+		_reload.rpc()
 	elif event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event is InputEventMouseMotion:
+		if Global.mode != Global.Mode.ONLINE:
+			return
 		var motion: InputEventMouseMotion = event as InputEventMouseMotion 
 		rotate_y(-motion.relative.x * MOUSE_SENSITIVITY)
 		_camera_rotation.rotate_x(motion.relative.y * MOUSE_SENSITIVITY)
@@ -142,10 +146,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		)
 	elif event.is_action_pressed("shoot"):
 		if _is_degained and _shot_timer.is_stopped():
-			_shoot()
+			_shoot.rpc()
 	elif event.is_action_pressed("degaine"):
 		if _reload_timer.is_stopped():
-			_switch_degained()
+			_switch_degained.rpc()
 	elif event is InputEventJoypadMotion :
 		var motion_event: InputEventJoypadMotion = event as InputEventJoypadMotion
 		match motion_event.axis:
@@ -171,10 +175,10 @@ func _unhandled_input(event: InputEvent) -> void:
 					_rotation_direction.y = 0.0
 			JOY_AXIS_TRIGGER_RIGHT:
 				if _is_degained and _shot_timer.is_stopped() and is_equal_approx(motion_event.axis_value, 1.0):
-					_shoot()
+					_shoot.rpc()
 			JOY_AXIS_TRIGGER_LEFT:
 				if _reload_timer.is_stopped() and is_equal_approx(motion_event.axis_value, 1.0):
-					_switch_degained()
+					_switch_degained.rpc()
 
 
 func _rotate_camera(move: Vector2) -> void:
@@ -184,6 +188,7 @@ func _rotate_camera(move: Vector2) -> void:
 	_camera_rotation.rotation.x = clamp(_camera_rotation.rotation.x - move.y, CAMERA_X_ROT_MIN, CAMERA_X_ROT_MAX)
 	
 
+@rpc("call_local")
 func _shoot() -> void:
 	if _bullet_count == 0:
 		return
@@ -209,10 +214,10 @@ func _shoot() -> void:
 			_ray_cast_3d.get_collider().got_shot()
 			process_mode = PROCESS_MODE_DISABLED
 		if _ray_cast_3d.get_collider() is PNJ:
-			_ray_cast_3d.get_collider().got_shot()
+			_ray_cast_3d.get_collider().got_shot.rpc()
 	_ray_cast_3d.enabled = false
 	
-	
+
 func got_shot() -> void:
 	_viewport_hud.on_got_shot()
 	died.emit(player_id)
@@ -222,6 +227,7 @@ func got_shot() -> void:
 	process_mode = PROCESS_MODE_DISABLED
 
 
+@rpc("call_local")
 func _reload() -> void:
 	if _bullet_count == MAX_BULLET:
 		return
@@ -243,6 +249,7 @@ func _on_reload_timer_timeout() -> void:
 		server_data.can_move = true
 
 
+@rpc("call_local")
 func _switch_degained() -> void:
 	var target_rotation: float = deg_to_rad(0.0)
 	var tween: Tween = get_tree().create_tween()
@@ -267,3 +274,8 @@ func recursive_set_visual_layer(node: Node3D, layer: int) -> void:
 		if child is VisualInstance3D:
 			child.layers = layer
 		recursive_set_visual_layer(child, layer)
+
+
+func show_win_label(has_won: bool) -> void:
+	if is_multiplayer_authority():
+		_viewport_hud.show_win_label(has_won)

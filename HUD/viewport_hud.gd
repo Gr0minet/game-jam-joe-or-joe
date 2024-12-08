@@ -4,6 +4,7 @@ extends Control
 @onready var balle_vide: CompressedTexture2D = preload("res://sprites/balle_vide_small.png")
 @onready var balle_pleine: CompressedTexture2D = preload("res://sprites/ball_pleine_small.png")
 @onready var got_shot: TextureRect = $GotShot
+@onready var win_label: Label = $MarginContainer/WinLabel
 
 @onready var bullets: HBoxContainer = $Bullets
 @onready var MAX_BULLET: int = bullets.get_child_count()
@@ -14,6 +15,7 @@ var bullet_number: int
 
 func _ready() -> void:
 	got_shot.visible = false
+	win_label.hide()
 	bullet_number = MAX_BULLET
 	reload_bullets()
 
@@ -35,3 +37,11 @@ func on_bullet_shot() -> void:
 
 func on_got_shot() -> void:
 	got_shot.visible = true
+
+
+func show_win_label(has_won: bool) -> void:
+	if has_won:
+		win_label.text = "You win!"
+	else:
+		win_label.text = "You lose!"
+	win_label.show()

@@ -39,9 +39,6 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath("ServerData:can_move")
 properties/4/spawn = true
 properties/4/replication_mode = 2
-properties/5/path = NodePath("ServerData:joe_name")
-properties/5/spawn = true
-properties/5/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 15

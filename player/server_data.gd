@@ -3,4 +3,3 @@ extends Node3D
 
 @export var game_started: bool = false
 @export var can_move: bool = false
-@export var joe_name: String = "Anderson"

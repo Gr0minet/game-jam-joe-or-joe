@@ -5,10 +5,16 @@ extends CanvasLayer
 signal restart
 
 @onready var _countdown_label: Label = $CountdownLabel
-@onready var _victorious_joe: Label = $ReplayContainer/VictoriousJoe
 @onready var _replay_container: VBoxContainer = $ReplayContainer
 @onready var _countdown: Timer = $Countdown
 @onready var _rejouer_button: TextureButton = $ReplayContainer/RejouerButton
+@onready var _waiting_joe: Label = $ReplayContainer/WaitingJoe
+
+
+func _ready() -> void:
+	_waiting_joe.hide()
+	_replay_container.hide()
+	_rejouer_button.show()
 
 
 func start_time(start_countdown: int) -> void:
@@ -19,10 +25,13 @@ func start_time(start_countdown: int) -> void:
 func _process(_delta: float) -> void:
 	if not _countdown.is_stopped():
 		_countdown_label.text = "%d" % [int(_countdown.time_left) + 1]
+	for node: Node in _replay_container.get_children():
+		if node is BaseButton and node.is_hovered() and node != get_viewport().gui_get_focus_owner():
+			get_viewport().gui_release_focus()
 
 
-func show_replay_screen(victorious_joe: String) -> void:
-	_victorious_joe.text = victorious_joe + " gagne !"
+func show_replay_screen() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_replay_container.visible = true
 	_rejouer_button.grab_focus()
 
@@ -44,4 +53,9 @@ func _on_quitter_button_pressed() -> void:
 
 
 func _on_rejouer_button_pressed() -> void:
-	restart.emit()
+	if Global.mode == Global.Mode.ONLINE:
+		_waiting_joe.show()
+		_rejouer_button.hide()
+		restart.emit(multiplayer.get_unique_id())
+	else:
+		restart.emit()
