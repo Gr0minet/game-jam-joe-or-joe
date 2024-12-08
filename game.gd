@@ -32,7 +32,6 @@ func _ready() -> void:
 
 	_players[0].died.connect(_on_player_died)
 	_players[1].died.connect(_on_player_died)
-	_start_countdown.call_deferred()
 
 
 func _initialize_split_screen() -> void:
@@ -43,6 +42,7 @@ func _initialize_split_screen() -> void:
 		_players[i].reparent(_sub_viewports[i])
 	_spawn_initial_pnj()
 	_setup_initial_pnj_position()
+	_start_countdown()
 
 
 func _initialize_online() -> void:
@@ -56,13 +56,11 @@ func _initialize_online() -> void:
 	Lobby.player_disconnected.connect(_on_player_disconnected)
 	_players[0].initialize()
 	_players[1].initialize()
-
-	if not multiplayer.is_server():
-		return
-
 	if multiplayer.is_server():
 		_spawn_initial_pnj()
 		_setup_initial_pnj_position()
+	
+	_start_countdown()
 
 
 func _start_countdown() -> void:	
