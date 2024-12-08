@@ -34,7 +34,15 @@ func _ready() -> void:
 	if Global.mode == Global.Mode.SPLITSCREEN:
 		_initialize_split_screen.call_deferred()
 	elif Global.mode == Global.Mode.ONLINE:
-		_initialize_online.call_deferred()
+		split_screen.visible = false
+		_players[0].name = str(1)
+		for peer_id: int in Lobby.players.keys():
+			if peer_id != 1:
+				_players[1].name = str(peer_id)
+		Lobby.player_disconnected.connect(_on_player_disconnected)
+		_players[0].initialize()
+		_players[1].initialize()
+		Lobby.player_loaded.rpc_id(1)
 
 	_players[0].died.connect(_on_player_died)
 	_players[1].died.connect(_on_player_died)
@@ -54,18 +62,9 @@ func _initialize_split_screen() -> void:
 func _initialize_online() -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
-	split_screen.visible = false
-	_players[0].name = str(1)
-	for peer_id: int in Lobby.players.keys():
-		if peer_id != 1:
-			_players[1].name = str(peer_id)
-	Lobby.player_disconnected.connect(_on_player_disconnected)
-	_players[0].initialize()
-	_players[1].initialize()
-	if multiplayer.is_server():
-		_spawn_initial_pnj()
-		_setup_initial_pnj_position()
-		_start_countdown.rpc()
+	_spawn_initial_pnj()
+	_setup_initial_pnj_position()
+	_start_countdown.rpc()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -81,7 +80,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 @rpc("call_local", "reliable")
-func _start_countdown() -> void:	
+func _start_countdown() -> void:
 	main_hud.restart.connect(_restart_game)
 	main_hud.start_time(start_countdown)
 	await get_tree().create_timer(start_countdown).timeout

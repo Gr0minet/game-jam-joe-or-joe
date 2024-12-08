@@ -73,7 +73,7 @@ func player_loaded():
 	if multiplayer.is_server():
 		players_loaded += 1
 		if players_loaded == players.size():
-			$/root/Game.start_game()
+			$/root/Game._initialize_online.call_deferred()
 			players_loaded = 0
 
 
