@@ -186,7 +186,7 @@ func _rotate_camera(move: Vector2) -> void:
 	_camera_rotation.rotation.x = clamp(_camera_rotation.rotation.x - move.y, CAMERA_X_ROT_MIN, CAMERA_X_ROT_MAX)
 	
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func _shoot() -> void:
 	if _bullet_count == 0:
 		return

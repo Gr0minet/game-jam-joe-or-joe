@@ -24,6 +24,7 @@ var state: State = State.MENU
 var doing_introduction: bool = false
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	disconnected_container.hide()
 	lan.visible = false
 	background.texture = menu_background
